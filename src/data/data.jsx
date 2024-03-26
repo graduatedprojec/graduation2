@@ -15,7 +15,7 @@ export const Sidedata = [
     nestedItems: [],
   },
   {
-    path: "/users",
+    path: "",
     title: "Users",
     icon: <MailIcon />,
     nestedItems: [
@@ -85,7 +85,7 @@ export const Sidedata = [
     nestedItems: [],
   },
   {
-    path: "/inventory",
+    path: "",
     title: "Inventory",
     icon: <InboxIcon />,
     nestedItems: [

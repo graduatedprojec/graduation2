@@ -30,7 +30,7 @@ const Doctors = () => {
   const delHandedler = () => {
     openModalDel();
   };
-  const rows = [
+  const arr = [
     {
       id: 1,
       Name: "Moaz Karem",
@@ -124,7 +124,7 @@ const Doctors = () => {
     },
     {
       id: 10,
-      Name: "ayman monir",
+      Name: "after editing ",
       phone: "(751)153-5454",
       email: "ayman@jmail.com",
       address: "023423452",
@@ -133,91 +133,48 @@ const Doctors = () => {
       delete: "Delete",
     },
   ];
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-    {
-      field: "Name",
-      headerName: "Name",
+  const rows = arr.map((row) => ({
+    id: row.id,
+    Name: row.Name,
+    phone: row.phone,
+    email: row.email,
+    address: row.address,
+    profile: row.profile,
+    edit: row.edit,
+    delete: row.delete,
+  }));
+  const columns = Object.keys(arr[0]).map((key) => {
+    const isEditOrDeleteColumn = key === "edit" || key === "delete";
+  
+    return {
+      field: key,
+      headerName: key.charAt(0).toUpperCase() + key.slice(1),
       width: 150,
       flex: 1,
       align: "center",
       headerAlign: "center",
-    },
-    {
-      field: "phone",
-      headerName: "Phone",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "profile",
-      headerName: "profile",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return <Button styles={"bg-[#3C3D65] text-[#696cff]"}>Profile</Button>;
-      },
-    },
-    {
-      field: "edit",
-      headerName: "edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-
-      renderCell: () => {
-        return (
+      ...(isEditOrDeleteColumn && {
+        renderCell: () => (
           <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
+            onClick={() => {
+              if (key === "edit") {
+                EditHandedler();
+              } else if (key === "delete") {
+                delHandedler();
+              }
+            }}
+            styles={
+              key === "edit"
+                ? "bg-[#3D5045] text-[#71dd37]"
+                : "bg-[#543641] text-[#ff3e1d]"
+            }
           >
-            Edit
+            {key.charAt(0).toUpperCase() + key.slice(1)}
           </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
+        ),
+      }),
+    };
+  });
   return (
     <Box sx={{ height: 600, width: "95%", mx: "auto" }}>
       <TitlePage path={"Dashbord/Users / "} page={"Doctors"} />
