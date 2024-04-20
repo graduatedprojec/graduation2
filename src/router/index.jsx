@@ -23,36 +23,40 @@ import Supliers from "../pages/Supliers/Supliers";
 
 import InventoryPharmacy from "../pages/Inventory/Inventory pharmacy/InventoryPharmacy";
 import InventoryTool from "../pages/Inventory/Inventory Tool/InventoryTool";
+import Login from "../pages/login/Login";
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Rootlayout />}>
-      <Route index element={<Home />} />
-      <Route path="users">
-        <Route path="doctors" element={<Doctors />} />
-        <Route path="nursing" element={<Nursing />} />
-        <Route path="labmanagers" element={<LabManager />} />
-        <Route path="roommanagers" element={<RoomManager />} />
+    <>
+      <Route path="/" element={<Rootlayout />}>
+        <Route index element={<Home />} />
+        <Route path="users">
+          <Route path="doctors" element={<Doctors />} />
+          <Route path="nursing" element={<Nursing />} />
+          <Route path="labmanagers" element={<LabManager />} />
+          <Route path="roommanagers" element={<RoomManager />} />
+        </Route>
+        <Route path="rooms">
+          <Route index element={<Rooms />} />
+          <Route path="roompatients" element={<Roompatients />} />
+          <Route path="roomtools" element={<RoomTools />} />
+        </Route>
+        <Route path="labs">
+          <Route index element={<Labs />} />
+          <Route path="labpatients" element={<Labpatients />} />
+          <Route path="labtoolss" element={<LabTools />} />
+        </Route>
+        <Route path="departments" element={<Departments />} />
+        <Route path="patients" element={<Patients />} />
+        <Route path="pharmacy" element={<Pharmacy />} />
+        <Route path="tools" element={<Tools />} />
+        <Route path="supliers" element={<Supliers />} />
+        <Route path="inventory">
+          <Route path="pharmacy" element={<InventoryPharmacy />} />
+          <Route path="tool" element={<InventoryTool />} />
+        </Route>
       </Route>
-      <Route path="rooms">
-        <Route index element={<Rooms />} />
-        <Route path="roompatients" element={<Roompatients />} />
-        <Route path="roomtools" element={<RoomTools />} />
-      </Route>
-      <Route path="labs">
-        <Route index element={<Labs />} />
-        <Route path="labpatients" element={<Labpatients />} />
-        <Route path="labtoolss" element={<LabTools />} />
-      </Route>
-      <Route path="departments" element={<Departments />} />
-      <Route path="patients" element={<Patients />} />
-      <Route path="pharmacy" element={<Pharmacy />} />
-      <Route path="tools" element={<Tools />} />
-      <Route path="supliers" element={<Supliers/>} />
-      <Route path="inventory">
-      <Route path="pharmacy" element={<InventoryPharmacy/>} />
-      <Route path="tool" element={<InventoryTool/>} />
-      </Route>
-    </Route>
+      <Route path="/login" element={<Login />} />
+    </>
   )
 );
 

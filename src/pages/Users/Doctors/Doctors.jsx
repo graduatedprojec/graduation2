@@ -143,9 +143,9 @@ const Doctors = () => {
     edit: row.edit,
     delete: row.delete,
   }));
+
   const columns = Object.keys(arr[0]).map((key) => {
     const isEditOrDeleteColumn = key === "edit" || key === "delete";
-  
     return {
       field: key,
       headerName: key.charAt(0).toUpperCase() + key.slice(1),

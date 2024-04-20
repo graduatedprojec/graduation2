@@ -12,11 +12,15 @@ const AddLab = ({ isOpen, closeModal, title }) => {
         <form>
           <div className="flex gap-2 flex-col">
             <Label htmlFor="id"> ID : </Label>
-            <Input id="id" />
+            <Input 
+// @ts-ignore
+            id="id" />
           </div>
           <div className="flex gap-2 flex-col">
             <Label htmlFor="Name">Name  : </Label>
-            <Input id="Name" />
+            <Input 
+// @ts-ignore
+            id="Name" />
           </div>
       
           <div className="flex justify-center items-center space-x-3 ">
