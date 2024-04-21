@@ -23,14 +23,30 @@ import Supliers from "../pages/Supliers/Supliers";
 import InventoryPharmacy from "../pages/Inventory/Inventory pharmacy/InventoryPharmacy";
 import InventoryTool from "../pages/Inventory/Inventory Tool/InventoryTool";
 import Login from "../pages/login/Login";
+import ProtectedRoute from "../auth/Protectedrout";
 
-
+const storageKey = "logged";
+const userDataString = localStorage.getItem(storageKey);
+const userData = userDataString ? JSON.parse(userDataString) : null;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Rootlayout />}>
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route path="users">
           <Route path="doctors" element={<Doctors />} />
           <Route path="nursing" element={<Nursing />} />
@@ -57,7 +73,20 @@ const router = createBrowserRouter(
           <Route path="tool" element={<InventoryTool />} />
         </Route>
       </Route>
-      <Route path="login" element={<Login/>} />
+      <Route
+        path="login"
+        element={
+          <ProtectedRoute
+            isAllowed={
+              !userData || !userData.data || !userData.data.access_token
+            }
+            redirectPath="/"
+            data={userData}
+          >
+            <Login />
+          </ProtectedRoute>
+        }
+      />
     </>
   )
 );
