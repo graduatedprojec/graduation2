@@ -48,29 +48,250 @@ const router = createBrowserRouter(
           }
         />
         <Route path="users">
-          <Route path="doctors" element={<Doctors />} />
-          <Route path="nursing" element={<Nursing />} />
-          <Route path="labmanagers" element={<LabManager />} />
-          <Route path="roommanagers" element={<RoomManager />} />
+          <Route
+            path="doctors"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Doctors />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="nursing"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Nursing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="labmanagers"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <LabManager />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="roommanagers"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <RoomManager />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route path="rooms">
-          <Route index element={<Rooms />} />
-          <Route path="room-patients" element={<Roompatients />} />
-          <Route path="room-tools" element={<RoomTools />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Rooms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="room-patients"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Roompatients />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="room-tools"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <RoomTools />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route path="labs">
-          <Route index element={<Labs />} />
-          <Route path="lab-patients" element={<Labpatients />} />
-          <Route path="lab-tools" element={<LabTools />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Labs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="lab-patients"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <Labpatients />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="lab-tools"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <LabTools />
+              </ProtectedRoute>
+            }
+          />
         </Route>
-        <Route path="departments" element={<Departments />} />
-        <Route path="patients" element={<Patients />} />
-        <Route path="pharmacy" element={<Pharmacy />} />
-        <Route path="tools" element={<Tools />} />
-        <Route path="supliers" element={<Supliers />} />
+        <Route
+          path="departments"
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Departments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="patients"
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Patients />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="pharmacy"
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Pharmacy />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="tools"
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Tools />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="supliers"
+          element={
+            <ProtectedRoute
+              isAllowed={
+                userData && userData.data && userData.data.access_token
+              }
+              redirectPath="/login"
+              data={userData}
+            >
+              <Supliers />
+            </ProtectedRoute>
+          }
+        />
         <Route path="inventory">
-          <Route path="pharmacy" element={<InventoryPharmacy />} />
-          <Route path="tool" element={<InventoryTool />} />
+          <Route
+            path="pharmacy"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <InventoryPharmacy />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="tool"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  userData && userData.data && userData.data.access_token
+                }
+                redirectPath="/login"
+                data={userData}
+              >
+                <InventoryTool />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route
