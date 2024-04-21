@@ -20,10 +20,12 @@ import LabTools from "../pages/Labs/LabTools/LabTools";
 import Pharmacy from "../pages/Pharmacy/Pharmacy";
 import Tools from "../pages/All Tools/Tools";
 import Supliers from "../pages/Supliers/Supliers";
-
 import InventoryPharmacy from "../pages/Inventory/Inventory pharmacy/InventoryPharmacy";
 import InventoryTool from "../pages/Inventory/Inventory Tool/InventoryTool";
 import Login from "../pages/login/Login";
+
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -37,13 +39,13 @@ const router = createBrowserRouter(
         </Route>
         <Route path="rooms">
           <Route index element={<Rooms />} />
-          <Route path="roompatients" element={<Roompatients />} />
-          <Route path="roomtools" element={<RoomTools />} />
+          <Route path="room-patients" element={<Roompatients />} />
+          <Route path="room-tools" element={<RoomTools />} />
         </Route>
         <Route path="labs">
           <Route index element={<Labs />} />
-          <Route path="labpatients" element={<Labpatients />} />
-          <Route path="labtoolss" element={<LabTools />} />
+          <Route path="lab-patients" element={<Labpatients />} />
+          <Route path="lab-tools" element={<LabTools />} />
         </Route>
         <Route path="departments" element={<Departments />} />
         <Route path="patients" element={<Patients />} />
@@ -55,7 +57,7 @@ const router = createBrowserRouter(
           <Route path="tool" element={<InventoryTool />} />
         </Route>
       </Route>
-      <Route path="/login" element={<Login />} />
+      <Route path="login" element={<Login/>} />
     </>
   )
 );

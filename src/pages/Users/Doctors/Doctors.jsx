@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
@@ -156,6 +157,8 @@ const Doctors = () => {
       ...(isEditOrDeleteColumn && {
         renderCell: () => (
           <Button
+
+          
             onClick={() => {
               if (key === "edit") {
                 EditHandedler();
