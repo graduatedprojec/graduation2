@@ -24,10 +24,12 @@ import InventoryPharmacy from "../pages/Inventory/Inventory pharmacy/InventoryPh
 import InventoryTool from "../pages/Inventory/Inventory Tool/InventoryTool";
 import Login from "../pages/login/Login";
 import ProtectedRoute from "../auth/Protectedrout";
+// import { useSelector } from "react-redux";
 
 const storageKey = "logged";
 const userDataString = localStorage.getItem(storageKey);
 const userData = userDataString ? JSON.parse(userDataString) : null;
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(

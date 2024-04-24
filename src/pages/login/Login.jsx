@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Label from "../../Ui/Label";
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
@@ -10,7 +12,12 @@ import { loginSchema } from "../../validation/validation";
 import { axiosInstance } from "../../config/axios.config";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTokens } from "../../app/features/login/login";
+
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -20,7 +27,6 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
   });
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
     try {
       const { status, data: logedData } = await axiosInstance.post(
@@ -37,7 +43,9 @@ const Login = () => {
           },
         });
       }
-      localStorage.setItem("logged", JSON.stringify(logedData));
+    localStorage.setItem("logged", JSON.stringify(logedData));
+      dispatch(getTokens(logedData));
+
       setTimeout(() => {
         location.replace("/");
       }, 1200);
