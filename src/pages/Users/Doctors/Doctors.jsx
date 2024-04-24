@@ -17,8 +17,19 @@ import { UseGetDoctors } from "../../../hooks/HDoctors/UsegetDoctors";
 const Doctors = () => {
   const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
+  const [addDoctor, setaddDoctor] = useState({
+    id: 0,
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    static_role: "",
+  });
   const [isOpen, setIsOpen] = useState(false);
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false)
+    setaddDoctor(addDoctor)
+  };
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -29,7 +40,9 @@ const Doctors = () => {
     email: "",
     password: "",
     static_role: "",
+    address:''
   });
+
   const closeModalEdit = () => setIsOpenEdit(false);
   const openModalEdit = (doctor) => {
     setIsOpenEdit(true);
@@ -39,7 +52,10 @@ const Doctors = () => {
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
+  const openModalDel = (doctor) =>{
+    setIsOpenDel(true);
+    seteditDoctor(doctor);
+  } 
   //=========HANDELERS ========
 
   // STARTING API
@@ -99,9 +115,9 @@ const Doctors = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            renderCell: () => (
+            renderCell: (params) => (
               <Button
-                onClick={openModalDel}
+                onClick={()=>openModalDel(params.row)}
                 styles="bg-[#543641] text-[#ff3e1d]"
               >
                 Delete
@@ -128,6 +144,8 @@ const Doctors = () => {
       title={"Add New Doctor"}
         isOpen={isOpen}
         closeModal={closeModal}
+        addDoctor={addDoctor}
+        setaddDoctor={setaddDoctor}
       />
       <EditDoctor
         title={"Edit Doctor Information"}
@@ -139,7 +157,9 @@ const Doctors = () => {
       <DelDoctor
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-        title={"Are You Want Delete Dr-Moaz"}
+        
+        editDoctor={editDoctor}
+        seteditDoctor={seteditDoctor}
       />
     </Box>
   );
