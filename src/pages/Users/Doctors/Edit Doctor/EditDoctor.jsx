@@ -6,9 +6,10 @@ import Input from "../../../../Ui/Input";
 import Label from "../../../../Ui/Label";
 import SubmitButton from "../../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
-import { axiosInstance } from "../../../../config/axios.config";
+
 import toast from "react-hot-toast";
-import { useState } from "react";
+
+import UseEditDoctorData from "../../../../hooks/HDoctors/UseEditDoctor";
 const EditDoctor = ({
   isOpenEdit,
   closeModalEdit,
@@ -16,10 +17,12 @@ const EditDoctor = ({
   editDoctor,
   seteditDoctor,
 }) => {
-  const [loading, setloading] = useState(false);
+  const { editDoctorData, loading } = UseEditDoctorData(); // Use the custom hook
+
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
+
   const changeHandler = (e) => {
     const { value, name } = e.target;
     seteditDoctor({
@@ -28,45 +31,39 @@ const EditDoctor = ({
     });
   };
 
-  const onSubmitHandeler = async (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    setloading(true);
-    const { name, email, phone } = editDoctor;
-    try {
-      const { status } = await axiosInstance.post(
-        `/api/users/staff/${editDoctor.id}/update`,
-        { name, email, phone, address: "test" },
-        {
-          headers: { Authorization: `Bearer ${userData.data.access_token}` },
-        }
-      );
 
-      if (status) {
-        closeModalEdit();
+    const result = await editDoctorData(editDoctor, userData);
 
-        toast.success("Success Updated!", {
-          duration: 1000,
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        });
-      }
+    if (result.success) {
+      closeModalEdit();
+      toast.success("Success Updated!", {
+        duration: 1000,
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       setTimeout(() => {
         window.location.reload();
       }, 1500);
-    } catch (error) {
-      console.log(error.response?.data.error.message);
-    } finally {
-      setloading(false)
+    } else {
+      toast.error(result.error, {
+        duration: 1000,
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     }
   };
-
   return (
     <div>
       <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
-        <form onSubmit={onSubmitHandeler}>
+        <form onSubmit={onSubmitHandler}>
           <div className="flex gap-2 flex-col">
             <Label htmlFor="Name"> Name : </Label>
             <Input

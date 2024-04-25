@@ -18,13 +18,10 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
     phone: "",
     address: "",
   });
-
   const { addDoctorData, loading } = UseAddDoctorData();
-
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-
   const changeHandler = (e) => {
     const { value, name } = e.target;
     setDoctorData({
@@ -32,11 +29,9 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
       [name]: value,
     });
   };
-
   const onAddHandler = async (e) => {
     e.preventDefault();
     const result = await addDoctorData(doctorData, userData);
-
     if (result.success) {
       closeModal();
       toast.success("Success Updated!", {
@@ -51,10 +46,16 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
         window.location.reload();
       }, 1500);
     } else {
-      toast.error("An error occurred. Please try again later.");
+      toast.error(result.error, {
+        duration: 1000,
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     }
   };
-
   return (
     <div>
       <Modal title={title} isOpen={isOpen} closeModal={closeModal}>
