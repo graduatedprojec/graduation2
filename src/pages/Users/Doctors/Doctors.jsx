@@ -69,6 +69,7 @@ const Doctors = () => {
         phone: row.phone,
         email: row.email,
         static_role: row.static_role,
+        address: row.address,
         edit: "Edit",
         delete: "Delete",
       }))
