@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
@@ -61,89 +60,92 @@ const Doctors = () => {
   const { data, isLoading } = UseGetDoctors();
   dispatch(fetchDoctors(data));
 
-  const rows = data
-    ? data.map((row) => ({
-        id: row.id,
-        name: row.name,
-        phone: row.phone,
-        email: row.email,
-        static_role: row.static_role,
-        address: row.address,
-        edit: "Edit",
-        delete: "Delete",
-      }))
-    : [];
-
-  const columns = data
-    ? Object.keys(data[0])
-        .map((key) => {
-          const isEditOrDeleteColumn = key === "edit" || key === "delete";
-          if (isEditOrDeleteColumn) {
-            return null; // Skip rendering this column for edit and delete buttons
-          }
-          return {
-            field: key,
-            headerName: key.charAt(0).toUpperCase() + key.slice(1),
-            width: 150,
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-          };
-        })
-        .filter(Boolean)
-        .concat([
-          {
-            field: "edit",
-            headerName: "Edit",
-            width: 150,
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-            renderCell: (params) => (
-              <Button
-                onClick={() => openModalEdit(params.row)}
-                styles="bg-[#3D5045] text-[#71dd37]"
-              >
-                Edit
-              </Button>
-            ),
-          },
-          {
-            field: "delete",
-            headerName: "Delete",
-            width: 150,
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-            renderCell: (params) => (
-              <Button
-                onClick={() => openModalDel(params.row)}
-                styles="bg-[#543641] text-[#ff3e1d]"
-              >
-                Delete
-              </Button>
-            ),
-          },
-        ])
-    : [];
-
   if (isLoading) return <h2>loading ...</h2>;
+
   return (
     <Box sx={{ height: 600, width: "95%", mx: "auto" }}>
       <TitlePage path={"Dashbord/Users / "} page={"Doctors"} />
       <AddButton add={openModal} title={"Add New Doctor"} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            phone: row.phone,
+            email: row.email,
+            static_role: row.static_role,
+            address: row.address,
+            edit: "Edit",
+            delete: "Delete",
+          }))}
+          // @ts-ignore
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+            // @ts-ignore
+            .concat([
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalEdit(params.row)}
+                    styles="bg-[#3D5045] text-[#71dd37]"
+                  >
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalDel(params.row)}
+                    styles="bg-[#543641] text-[#ff3e1d]"
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddDoctor
         title={"Add New Doctor"}
         isOpen={isOpen}
         closeModal={closeModal}
+        // @ts-ignore
         addDoctor={addDoctor}
         setaddDoctor={setaddDoctor}
       />
@@ -158,6 +160,7 @@ const Doctors = () => {
         isOpen={isOpenDel}
         closeModal={closeModalDel}
         editDoctor={editDoctor}
+        // @ts-ignore
         seteditDoctor={seteditDoctor}
       />
     </Box>
@@ -165,3 +168,4 @@ const Doctors = () => {
 };
 
 export default Doctors;
+
