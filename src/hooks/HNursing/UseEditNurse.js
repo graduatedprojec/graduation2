@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { axiosInstance } from "../../config/axios.config";
 
-const UseEditDoctorData = () => {
+const UseEditNurseData = () => {
   const [loading, setLoading] = useState(false);
 
-  const editDoctorData = async (editDoctor, userData) => {
+  const editNurseData = async (editNurse, userData) => {
     setLoading(true);
     try {
       const { status } = await axiosInstance.post(
-        `/api/users/staff/${editDoctor.id}/update`,
-        { ...editDoctor },
+        `/api/users/staff/${editNurse.id}/update`,
+        { ...editNurse },
         {
           headers: { Authorization: `Bearer ${userData.data.access_token}` },
         }
@@ -25,7 +25,7 @@ const UseEditDoctorData = () => {
     }
   };
 
-  return { editDoctorData, loading };
+  return { editNurseData, loading };
 };
 
-export default UseEditDoctorData;
+export default UseEditNurseData;

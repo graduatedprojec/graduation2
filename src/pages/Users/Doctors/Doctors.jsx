@@ -27,8 +27,8 @@ const Doctors = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
-    setIsOpen(false)
-    setaddDoctor(addDoctor)
+    setIsOpen(false);
+    setaddDoctor(addDoctor);
   };
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
@@ -40,22 +40,21 @@ const Doctors = () => {
     email: "",
     password: "",
     static_role: "",
-    address:''
+    address: "",
   });
 
   const closeModalEdit = () => setIsOpenEdit(false);
   const openModalEdit = (doctor) => {
     setIsOpenEdit(true);
     seteditDoctor(doctor);
-
   };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = (doctor) =>{
+  const openModalDel = (doctor) => {
     setIsOpenDel(true);
     seteditDoctor(doctor);
-  } 
+  };
   //=========HANDELERS ========
 
   // STARTING API
@@ -118,7 +117,7 @@ const Doctors = () => {
             headerAlign: "center",
             renderCell: (params) => (
               <Button
-                onClick={()=>openModalDel(params.row)}
+                onClick={() => openModalDel(params.row)}
                 styles="bg-[#543641] text-[#ff3e1d]"
               >
                 Delete
@@ -142,7 +141,7 @@ const Doctors = () => {
         }}
       />
       <AddDoctor
-      title={"Add New Doctor"}
+        title={"Add New Doctor"}
         isOpen={isOpen}
         closeModal={closeModal}
         addDoctor={addDoctor}
@@ -158,7 +157,6 @@ const Doctors = () => {
       <DelDoctor
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-        
         editDoctor={editDoctor}
         seteditDoctor={seteditDoctor}
       />

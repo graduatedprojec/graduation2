@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
 // @ts-ignore
-
 import Modal from "../../../../Ui/Modal";
 import Input from "../../../../Ui/Input";
 import Label from "../../../../Ui/Label";
 import SubmitButton from "../../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
-
 import toast from "react-hot-toast";
-
 import UseEditDoctorData from "../../../../hooks/HDoctors/UseEditDoctor";
 const EditDoctor = ({
   isOpenEdit,
@@ -94,12 +91,16 @@ const EditDoctor = ({
               name="email"
             />
           </div>
-          {/* <div className="flex gap-2 flex-col">
-            <Label htmlFor="role"> address : </Label>
-            <Input 
-// @ts-ignore
-            id="role" value={editDoctor.address} onChange={changeHandler} name="address" />
-          </div> */}
+            <div className="flex gap-2 flex-col">
+            <Label htmlFor="address"> Address : </Label>
+            <Input
+              // @ts-ignore
+              id="address"
+              value={editDoctor.address}
+              onChange={changeHandler}
+              name="address"
+            />
+          </div>
           <div className="flex justify-center items-center space-x-3">
             <SubmitButton loading={loading}> Edit </SubmitButton>
             <Cancelbtn onClick={closeModalEdit}>Cancel</Cancelbtn>
