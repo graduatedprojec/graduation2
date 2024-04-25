@@ -8,13 +8,10 @@ import toast from "react-hot-toast";
 import UseeditNurseData from "../../../../hooks/HNursing/UseEditNurse";
 // eslint-disable-next-line react/prop-types
 const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurse }) => {
-
   const { editNurseData, loading } = UseeditNurseData(); // Use the custom hook
-
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-
   const changeHandler = (e) => {
     const { value, name } = e.target;
     seteditNurse({
@@ -22,12 +19,9 @@ const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurs
       [name]: value,
     });
   };
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
     const result = await editNurseData(editNurse, userData);
-
     if (result.success) {
       closeModalEdit();
       toast.success("Success Updated!", {
@@ -52,8 +46,6 @@ const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurs
       });
     }
   };
-
-
   return (
     <div>
         <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
@@ -107,5 +99,4 @@ const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurs
     </div>
   );
 };
-
 export default EditNurse;

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { axiosInstance } from "../../config/axios.config";
-
 const UseEditDoctorData = () => {
   const [loading, setLoading] = useState(false);
-
   const editDoctorData = async (editDoctor, userData) => {
     setLoading(true);
     try {
@@ -14,7 +12,6 @@ const UseEditDoctorData = () => {
           headers: { Authorization: `Bearer ${userData.data.access_token}` },
         }
       );
-
       return { success: status === 200 };
     } catch (error) {
       const errorMessage =
@@ -24,8 +21,6 @@ const UseEditDoctorData = () => {
       setLoading(false);
     }
   };
-
   return { editDoctorData, loading };
 };
-
 export default UseEditDoctorData;

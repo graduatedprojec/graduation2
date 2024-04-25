@@ -14,6 +14,14 @@ import { useDispatch } from "react-redux";
 import { fetchNursing } from "../../../app/features/nursing/GetNursingSlice";
 const Nursing = () => {
   const dispatch = useDispatch()
+  const [addNurse, setaddNurse] = useState({
+    id: 0,
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    static_role: "",
+  });
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
@@ -37,7 +45,10 @@ const Nursing = () => {
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
+  const openModalDel = (nurse) => {
+    setIsOpenDel(true);
+    seteditNurse(nurse);
+  };
   //=========HANDELERS ========
 
   const { data, isLoading } = UsegetNursing();
@@ -124,7 +135,8 @@ const Nursing = () => {
         isOpen={isOpen}
         closeModal={closeModal}
         title={"Add New Nurse "}
-        
+        addNurse={addNurse}
+        setaddNurse={setaddNurse}
       />
       <EditNurse
         isOpenEdit={isOpenEdit}
@@ -137,6 +149,8 @@ const Nursing = () => {
         isOpen={isOpenDel}
         closeModal={closeModalDel}
         title={"Are Yoy Want To Delete Esraa"}
+        editNurse={editNurse}
+      
       />
     </Box>
   );

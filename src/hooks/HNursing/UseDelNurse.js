@@ -1,26 +1,32 @@
 import { useState } from "react";
 import { axiosInstance } from "../../config/axios.config";
-const UseEditNurseData = () => {
+
+const UseDeleteNurse = () => {
   const [loading, setLoading] = useState(false);
-  const editNurseData = async (editNurse, userData) => {
+
+  const deleteNurseData = async (NurseId, userData) => {
     setLoading(true);
     try {
-      const { status } = await axiosInstance.post(
-        `/api/users/staff/${editNurse.id}/update`,
-        { ...editNurse },
+      const { status } = await axiosInstance.delete(
+        `/api/users/staff/${NurseId}/delete`,
         {
-          headers: { Authorization: `Bearer ${userData.data.access_token}` },
+          headers: {
+            Authorization: `Bearer ${userData.data.access_token}`,
+          },
         }
       );
+      
       return { success: status === 200 };
     } catch (error) {
-      const errorMessage =
+        const errorMessage =
         error.response?.data?.error?.message || "An unexpected error occurred.";
       return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }
   };
-  return { editNurseData, loading };
+
+  return { deleteNurseData, loading };
 };
-export default UseEditNurseData;
+
+export default UseDeleteNurse;
