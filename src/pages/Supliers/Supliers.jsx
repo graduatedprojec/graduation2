@@ -1,3 +1,4 @@
+
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
@@ -9,189 +10,138 @@ import { useState } from "react";
 import AddSuplier from "./Add Suplier/AddSuplier";
 import EditSuplier from "./Edit Suplier/EditSuplier";
 import DelSuplier from "./Del Suplier/DelSuplier";
-
+import { UseGetSupliers } from "../../hooks/HSupliers/UseGetSupliers";
+import { useDispatch } from "react-redux";
+import { fetchSupliers } from "../../app/features/Supliers/GerSuplierSlice";
 const Supliers = () => {
+  const dispatch = useDispatch()
+
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
+  const [editSuplier, seteditSuplier] = useState({
+    id: 0,
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = () => setIsOpenEdit(true);
+  const openModalEdit = (suplier) => {
+    setIsOpenEdit(true);
+    seteditSuplier(suplier);
+  };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
+  const openModalDel = (suplier) => {
+    setIsOpenDel(true);
+    seteditSuplier(suplier);
+  };
   //=========HANDELERS ========
-  const EditHandedler = () => {
-    openModalEdit();
-  };
-  const delHandedler = () => {
-    openModalDel();
-  };
-  const rows = [
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      edit: "Edit",
-      delete: "Delete",
-    },
 
-  ];
-
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-
-    {
-      field: "Name",
-      headerName: "Name",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "phone",
-      headerName: "Phone",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-
-    {
-      field: "address",
-      headerName: "Address",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-
-    {
-      field: "edit",
-      headerName: "Edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-
-      renderCell: () => {
-        return (
-          <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
-          >
-            Edit
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
+  const { data, isLoading } = UseGetSupliers();
+  dispatch(fetchSupliers(data));
+  if (isLoading) return <h2>loading ...</h2>;
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord / "} page={"Supliers"} />
       <AddButton add={openModal} title={"Add New Suplier"} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            phone: row.phone,
+            email: row.email,
+            address: 'test',
+            edit: "Edit",
+            delete: "Delete",
+          }))}
+          // @ts-ignore
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+            // @ts-ignore
+            .concat([
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalEdit(params.row)}
+                    styles="bg-[#3D5045] text-[#71dd37]"
+                  >
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalDel(params.row)}
+                    styles="bg-[#543641] text-[#ff3e1d]"
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddSuplier
         isOpen={isOpen}
         closeModal={closeModal}
         title={"Add New Suplier "}
+
       />
       <EditSuplier
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit Suplier Information"}
+        editSuplier={editSuplier}
+        seteditSuplier={seteditSuplier}
       />
       <DelSuplier
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-        title={"Are Yoy Want To Delete Suplier"}
+
+        editSuplier={editSuplier}
       />
     </Box>
   );

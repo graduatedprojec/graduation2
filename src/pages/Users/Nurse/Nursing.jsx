@@ -50,10 +50,8 @@ const Nursing = () => {
     seteditNurse(nurse);
   };
   //=========HANDELERS ========
-
   const { data, isLoading } = UsegetNursing();
   dispatch(fetchNursing(data));
-
     if (isLoading) return <h2>loading ...</h2>;
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
@@ -158,5 +156,4 @@ const Nursing = () => {
     </Box>
   );
 };
-
 export default Nursing;
