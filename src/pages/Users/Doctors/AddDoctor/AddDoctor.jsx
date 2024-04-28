@@ -34,7 +34,7 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
     const result = await addDoctorData(doctorData, userData);
     if (result.success) {
       closeModal();
-      toast.success("Success Updated!", {
+      toast.success("Success Adding!", {
         duration: 1000,
         style: {
           borderRadius: "10px",
@@ -109,5 +109,4 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
     </div>
   );
 };
-
 export default AddDoctor;

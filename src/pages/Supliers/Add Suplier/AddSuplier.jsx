@@ -1,4 +1,3 @@
-
 import Modal from "../../../Ui/Modal";
 import Input from "../../../Ui/Input";
 import Label from "../../../Ui/Label";
@@ -8,7 +7,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import UseAddSuplier from "../../../hooks/HSupliers/UseAddSuplier";
 // eslint-disable-next-line react/prop-types
-const AddSuplier = ({isOpen , closeModal , title  }) => {
+const AddSuplier = ({ isOpen, closeModal, title }) => {
   const [suplierData, setsuplierData] = useState({
     name: "",
     email: "",
@@ -31,7 +30,7 @@ const AddSuplier = ({isOpen , closeModal , title  }) => {
     const result = await addSuplierData(suplierData, userData);
     if (result.success) {
       closeModal();
-      toast.success("Success Updated!", {
+      toast.success("Success Adding!", {
         duration: 1000,
         style: {
           borderRadius: "10px",
@@ -104,7 +103,6 @@ const AddSuplier = ({isOpen , closeModal , title  }) => {
         </form>
       </Modal>
     </div>
-  )
-}
-
-export default AddSuplier
+  );
+};
+export default AddSuplier;

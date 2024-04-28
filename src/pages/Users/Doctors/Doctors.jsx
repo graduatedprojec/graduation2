@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
@@ -78,7 +79,6 @@ const Doctors = () => {
             edit: "Edit",
             delete: "Delete",
           }))}
-          // @ts-ignore
           columns={Object.keys(data[0])
             .map((key) => {
               const isEditOrDeleteColumn = key === "edit" || key === "delete";
@@ -95,7 +95,7 @@ const Doctors = () => {
               };
             })
             .filter(Boolean)
-            // @ts-ignore
+
             .concat([
               {
                 field: "edit",
@@ -105,9 +105,7 @@ const Doctors = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalEdit(params.row)}
                     styles="bg-[#3D5045] text-[#71dd37]"
                   >
@@ -123,9 +121,7 @@ const Doctors = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalDel(params.row)}
                     styles="bg-[#543641] text-[#ff3e1d]"
                   >
@@ -145,7 +141,6 @@ const Doctors = () => {
         title={"Add New Doctor"}
         isOpen={isOpen}
         closeModal={closeModal}
-        // @ts-ignore
         addDoctor={addDoctor}
         setaddDoctor={setaddDoctor}
       />
@@ -160,7 +155,6 @@ const Doctors = () => {
         isOpen={isOpenDel}
         closeModal={closeModalDel}
         editDoctor={editDoctor}
-        // @ts-ignore
         seteditDoctor={seteditDoctor}
       />
     </Box>
@@ -168,4 +162,3 @@ const Doctors = () => {
 };
 
 export default Doctors;
-

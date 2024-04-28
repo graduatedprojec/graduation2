@@ -9,11 +9,11 @@ import AddNurse from "./Add Nurse/AddNurse";
 import { useState } from "react";
 import EditNurse from "./Edit Nurse/EditNurse";
 import DelNurse from "./Delet Nurse/DelNurse";
-import {UsegetNursing}  from "../../../hooks/HNursing/UsegetNursing";
+import { UsegetNursing } from "../../../hooks/HNursing/UsegetNursing";
 import { useDispatch } from "react-redux";
 import { fetchNursing } from "../../../app/features/nursing/GetNursingSlice";
 const Nursing = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [addNurse, setaddNurse] = useState({
     id: 0,
     name: "",
@@ -52,7 +52,7 @@ const Nursing = () => {
   //=========HANDELERS ========
   const { data, isLoading } = UsegetNursing();
   dispatch(fetchNursing(data));
-    if (isLoading) return <h2>loading ...</h2>;
+  if (isLoading) return <h2>loading ...</h2>;
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord/Users / "} page={"Nursing"} />
@@ -69,7 +69,6 @@ const Nursing = () => {
             edit: "Edit",
             delete: "Delete",
           }))}
-          // @ts-ignore
           columns={Object.keys(data[0])
             .map((key) => {
               const isEditOrDeleteColumn = key === "edit" || key === "delete";
@@ -86,7 +85,7 @@ const Nursing = () => {
               };
             })
             .filter(Boolean)
-            // @ts-ignore
+
             .concat([
               {
                 field: "edit",
@@ -96,9 +95,7 @@ const Nursing = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalEdit(params.row)}
                     styles="bg-[#3D5045] text-[#71dd37]"
                   >
@@ -114,9 +111,7 @@ const Nursing = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalDel(params.row)}
                     styles="bg-[#543641] text-[#ff3e1d]"
                   >
@@ -151,7 +146,6 @@ const Nursing = () => {
         closeModal={closeModalDel}
         title={"Are Yoy Want To Delete Esraa"}
         editNurse={editNurse}
-      
       />
     </Box>
   );

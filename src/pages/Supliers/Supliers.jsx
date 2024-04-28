@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
@@ -14,7 +14,7 @@ import { UseGetSupliers } from "../../hooks/HSupliers/UseGetSupliers";
 import { useDispatch } from "react-redux";
 import { fetchSupliers } from "../../app/features/Supliers/GerSuplierSlice";
 const Supliers = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
@@ -57,11 +57,10 @@ const Supliers = () => {
             name: row.name,
             phone: row.phone,
             email: row.email,
-            address: 'test',
+            address: row.address,
             edit: "Edit",
             delete: "Delete",
           }))}
-          // @ts-ignore
           columns={Object.keys(data[0])
             .map((key) => {
               const isEditOrDeleteColumn = key === "edit" || key === "delete";
@@ -78,7 +77,7 @@ const Supliers = () => {
               };
             })
             .filter(Boolean)
-            // @ts-ignore
+
             .concat([
               {
                 field: "edit",
@@ -88,9 +87,7 @@ const Supliers = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalEdit(params.row)}
                     styles="bg-[#3D5045] text-[#71dd37]"
                   >
@@ -106,9 +103,7 @@ const Supliers = () => {
                 align: "center",
                 headerAlign: "center",
                 renderCell: (params) => (
-                  <
-// @ts-ignore
-                  Button
+                  <Button
                     onClick={() => openModalDel(params.row)}
                     styles="bg-[#543641] text-[#ff3e1d]"
                   >
@@ -128,7 +123,6 @@ const Supliers = () => {
         isOpen={isOpen}
         closeModal={closeModal}
         title={"Add New Suplier "}
-
       />
       <EditSuplier
         isOpenEdit={isOpenEdit}
@@ -140,7 +134,6 @@ const Supliers = () => {
       <DelSuplier
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-
         editSuplier={editSuplier}
       />
     </Box>

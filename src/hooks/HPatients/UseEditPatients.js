@@ -12,7 +12,7 @@ const UseEditPatientsData = () => {
           headers: { Authorization: `Bearer ${userData.data.access_token}` },
         }
       );
-      console.log(res , 'edddd patients');
+
       return { success: res.status === 200 };
     } catch (error) {
       const errorMessage =

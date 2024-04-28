@@ -27,12 +27,9 @@ const EditDoctor = ({
       [name]: value,
     });
   };
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
     const result = await editDoctorData(editDoctor, userData);
-
     if (result.success) {
       closeModalEdit();
       toast.success("Success Updated!", {
@@ -91,7 +88,7 @@ const EditDoctor = ({
               name="email"
             />
           </div>
-            <div className="flex gap-2 flex-col">
+          <div className="flex gap-2 flex-col">
             <Label htmlFor="address"> Address : </Label>
             <Input
               // @ts-ignore
@@ -110,5 +107,4 @@ const EditDoctor = ({
     </div>
   );
 };
-
 export default EditDoctor;
