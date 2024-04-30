@@ -5,7 +5,7 @@ import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
 import toast from "react-hot-toast";
 import UseDeleteNurse from "../../../../hooks/HNursing/UseDelNurse";
 // eslint-disable-next-line react/prop-types
-const DelNurse = ({ isOpen, closeModal , editNurse}) => {
+const DelNurse = ({ isOpen, closeModal, editNurse }) => {
   const { deleteNurseData, loading } = UseDeleteNurse(); // Use the custom hook
 
   const storageKey = "logged";
@@ -51,7 +51,7 @@ const DelNurse = ({ isOpen, closeModal , editNurse}) => {
         <form onSubmit={onsubmitDeleteHandeler}>
           <div className="flex justify-center items-center space-x-3 ">
             <SubmitButton loading={loading}>Delete</SubmitButton>
-            <Cancelbtn onclick={closeModal}>Cancel</Cancelbtn>
+            <Cancelbtn onClick={closeModal}>Cancel</Cancelbtn>
           </div>
         </form>
       </Modal>

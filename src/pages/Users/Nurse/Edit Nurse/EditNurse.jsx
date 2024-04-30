@@ -7,7 +7,13 @@ import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
 import toast from "react-hot-toast";
 import UseeditNurseData from "../../../../hooks/HNursing/UseEditNurse";
 // eslint-disable-next-line react/prop-types
-const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurse }) => {
+const EditNurse = ({
+  isOpenEdit,
+  closeModalEdit,
+  title,
+  seteditNurse,
+  editNurse,
+}) => {
   const { editNurseData, loading } = UseeditNurseData(); // Use the custom hook
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
@@ -48,7 +54,7 @@ const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurs
   };
   return (
     <div>
-        <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
+      <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
         <form onSubmit={onSubmitHandler}>
           <div className="flex gap-2 flex-col">
             <Label htmlFor="Name"> Name : </Label>
@@ -80,7 +86,7 @@ const EditNurse = ({ isOpenEdit, closeModalEdit, title , seteditNurse , editNurs
               name="email"
             />
           </div>
-            <div className="flex gap-2 flex-col">
+          <div className="flex gap-2 flex-col">
             <Label htmlFor="address"> Address : </Label>
             <Input
               // @ts-ignore

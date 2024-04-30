@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
@@ -9,272 +10,164 @@ import { useState } from "react";
 import AddRoom from "./Add Room/AddRoom";
 import EditRoom from "./Edit Room/EditRoom";
 import DelRoom from "./Del Room/DelRoom";
+import { UseGetRooms } from "../../hooks/HRooms/UseGetRooms";
+
+import { useDispatch } from "react-redux";
+import { fetchRooms } from "../../app/features/Rooms/GetRoomsSlice";
+import { getRoomId } from "../../app/features/Room patients/GetRoompatientsslice";
 const Rooms = () => {
+  const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
+  const [editRoom, seteditRoom] = useState({
+    room_number: "",
+    bed_numbers: "",
+  });
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = () => setIsOpenEdit(true);
+  const openModalEdit = (Room) => {
+    setIsOpenEdit(true);
+    seteditRoom(Room);
+  };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
+  const openModalDel = (Room) => {
+    setIsOpenDel(true);
+    seteditRoom(Room);
+  };
   //=========HANDELERS ========
-  const EditHandedler = () => {
-    openModalEdit();
-  };
-  const delHandedler = () => {
-    openModalDel();
-  };
+
   const navigate = useNavigate();
-  const rows = [
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
+  const navigatePatients = (room) => {
+    navigate(`/rooms/${room.id}/roompatients`);
 
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
 
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-
-    {
-      id: 1,
-      room_num: 15,
-      bed_num: 124,
-
-      room_Pateints: "pateints",
-      tools: "tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-  ];
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-    {
-      field: "room_num",
-      headerName: "Room Number",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "bed_num",
-      headerName: "Bed Number",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "room_Pateints",
-      headerName: "Room Pateints",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button
-            onClick={() => navigate("/rooms/roompatients")}
-            styles={"bg-[#2B4B62] text-[#03c3ec]"}
-          >
-            Patients
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Tools",
-      headerName: "Room Tools",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button
-            onClick={() => navigate("/rooms/roomtools")}
-            styles={"bg-[#54473C] text-[#ffab00]"}
-          >
-            Tools
-          </Button>
-        );
-      },
-    },
-    {
-      field: "edit",
-      headerName: "Edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
-          >
-            Edit
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
+    dispatch(getRoomId(room.id));
+  };
+  const navigateRoomTools = () => {
+    navigate("/rooms/roomtools");
+  };
+  const { data, isLoading } = UseGetRooms();
+  dispatch(fetchRooms(data));
+  if (isLoading) return <h2>loading ...</h2>;
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord / "} page={"Rooms"} />
       <AddButton add={openModal} title={"Add New Room"} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            room_number: row.room_number,
+            bed_numbers: row.bed_numbers,
+            delete: "Delete",
+          }))}
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+
+            .concat([
+              {
+                field: "patients",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => navigatePatients(params)}
+                    styles={"bg-[#2B4B62] text-[#03c3ec]"}
+                  >
+                    Patients
+                  </Button>
+                ),
+              },
+              {
+                field: "tools",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: () => (
+                  <Button
+                    onClick={navigateRoomTools}
+                    styles={"bg-[#54473C] text-[#ffab00]"}
+                  >
+                    Tools
+                  </Button>
+                ),
+              },
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => openModalEdit(params.row)}
+                    styles="bg-[#3D5045] text-[#71dd37]"
+                  >
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => openModalDel(params.row)}
+                    styles="bg-[#543641] text-[#ff3e1d]"
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddRoom isOpen={isOpen} closeModal={closeModal} title={"Add New Room"} />
       <EditRoom
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit  Room Info"}
+        editRoom={editRoom}
+        seteditRoom={seteditRoom}
       />
       <DelRoom
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-        title={"Are You Want To Del Room"}
+        editRoom={editRoom}
       />
     </Box>
   );

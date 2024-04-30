@@ -123,7 +123,7 @@ const router = createBrowserRouter(
             }
           />
           <Route
-            path="roompatients"
+            path=":id/roompatients"
             element={
               <ProtectedRoute
                 isAllowed={
