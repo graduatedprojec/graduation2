@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
@@ -20,7 +21,7 @@ const Labs = () => {
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
-  const [editNurse, seteditNurse] = useState({
+  const [editLab, seteditLab] = useState({
     id: 0,
     name: "",
     phone: "",
@@ -33,14 +34,14 @@ const Labs = () => {
   const closeModalEdit = () => setIsOpenEdit(false);
   const openModalEdit = (nurse) => {
     setIsOpenEdit(true);
-    seteditNurse(nurse);
+    seteditLab(nurse);
   };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
   const openModalDel = (nurse) => {
     setIsOpenDel(true);
-    seteditNurse(nurse);
+    seteditLab(nurse);
   };
   //=========HANDELERS ========
   const navigatePatients = (lab) => {
@@ -164,12 +165,10 @@ const Labs = () => {
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit  Lab Info"}
+        editLab={editLab}
+        seteditLab={seteditLab}
       />
-      <DelLab
-        isOpen={isOpenDel}
-        closeModal={closeModalDel}
-        title={"Are You Want To Del Lab"}
-      />
+      <DelLab isOpen={isOpenDel} closeModal={closeModalDel} editLab={editLab} />
     </Box>
   );
 };
