@@ -167,7 +167,7 @@ const router = createBrowserRouter(
             }
           />
           <Route
-            path="lab-patients"
+            path=":id/labpatients"
             element={
               <ProtectedRoute
                 isAllowed={
@@ -181,7 +181,7 @@ const router = createBrowserRouter(
             }
           />
           <Route
-            path="lab-tools"
+            path="labtools"
             element={
               <ProtectedRoute
                 isAllowed={

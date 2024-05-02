@@ -7,6 +7,7 @@ import getPatientsSlice from "./features/patients/GetpatientsSlice";
 import getSelectedPatients from "./features/select room patients/GetroompSelectpatientsSlice";
 import getroomsSlice from "./features/Rooms/GetRoomsSlice";
 import getRoomPatients from "./features/Room patients/GetRoompatientsslice";
+import getlabsSlice from "./features/labs/GetLabsSlice";
 const store = configureStore({
   reducer: {
     getdoctor: getdoctorSlice,
@@ -16,6 +17,7 @@ const store = configureStore({
     getselcetedpatients: getSelectedPatients,
     getrooms: getroomsSlice,
     getroompatients: getRoomPatients,
+    getlabs:getlabsSlice ,
     mytokens: loginSlice,
   },
 });
