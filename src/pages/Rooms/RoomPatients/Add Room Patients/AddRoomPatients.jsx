@@ -10,11 +10,12 @@ import { useState } from "react";
 import UseAddRoomPatients from "../../../../hooks/HRoom Patients/UseAddRoomPatients";
 // eslint-disable-next-line react/prop-types
 const AddRoomPatients = ({ isOpen, closeModal, title }) => {
-
+  const StoredId = localStorage.getItem("roomId");
+  const roomIdStored = StoredId ? JSON.parse(StoredId) : null;
   const { data } = UseSelectPatientsRoom();
   const [roomPatientData, setroomPatientData] = useState({
     patient_id: "",
-    room_id: '',
+    room_id: roomIdStored,
     bed_number: "",
     date_in: "",
   });
@@ -32,6 +33,7 @@ const AddRoomPatients = ({ isOpen, closeModal, title }) => {
   const onAddHandler = async (e) => {
     e.preventDefault();
     const result = await addRoomPatients(roomPatientData, userData);
+    console.log(result);
     if (result.success) {
       closeModal();
       toast.success("Success Adding!", {
@@ -79,14 +81,14 @@ const AddRoomPatients = ({ isOpen, closeModal, title }) => {
                 ))}
             </select>
           </div>
-          <div className="flex gap-2 flex-col">
+          {/* <div className="flex gap-2 flex-col">
             <Label htmlFor="room_id"> Room Id : </Label>
             <Input 
 // @ts-ignore
             id="room_id" value={roomPatientData.room_id}
              name="room_id"
              onChange={changeHandler} />
-          </div>
+          </div> */}
           <div className="flex gap-2 flex-col">
             <Label htmlFor="Phone"> Bed Number : </Label>
             <Input 

@@ -13,7 +13,7 @@ const UseAddRoomPatients = () => {
           headers: { Authorization: `Bearer ${userData.data.access_token}` },
         }
       );
-      console.log(response , 'add room patients');
+      console.log(response, "add room patients");
       if (response.status >= 200 && response.status < 300) {
         return { success: true };
       } else {

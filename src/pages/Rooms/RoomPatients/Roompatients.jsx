@@ -13,6 +13,7 @@ import { UseGetRoomPatients } from "../../../hooks/HRoom Patients/UseGetRoomPati
 import { useDispatch } from "react-redux";
 import { fetchRoompatients } from "../../../app/features/Room patients/GetRoompatientsslice";
 const Roompatients = () => {
+
   const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
@@ -20,26 +21,24 @@ const Roompatients = () => {
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [editNurse, seteditNurse] = useState({
-    id: 0,
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-    static_role: "",
-    address: "",
+  const [editRoomPatients, seteditRoomPatients] = useState({
+    patient_id:'' ,
+    room_id :'' ,
+    bed_number:'' ,
+    date_in:'' ,
+    date_out:''
   });
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = (nurse) => {
+  const openModalEdit = (roompatients) => {
     setIsOpenEdit(true);
-    seteditNurse(nurse);
+    seteditRoomPatients(roompatients);
   };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
   const openModalDel = (nurse) => {
     setIsOpenDel(true);
-    seteditNurse(nurse);
+    seteditRoomPatients(nurse);
   };
   //=========HANDELERS ========
 
@@ -132,7 +131,8 @@ const Roompatients = () => {
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit Patients Info In The Room"}
-        editNurse={editNurse}
+        editRoomPatients ={editRoomPatients}
+        seteditRoomPatients={seteditRoomPatients}
       />
       <DelRoomPatients
         isOpen={isOpenDel}
