@@ -10,7 +10,7 @@ import AddRoomPatients from "./Add Room Patients/AddRoomPatients";
 import EditRoomPatients from "./Edit Room Patients/EditRoomPatients";
 import DelRoomPatients from "./Del Room Patients/DelRoomPatients";
 import { UseGetRoomPatients } from "../../../hooks/HRoom Patients/UseGetRoomPatients";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchRoompatients } from "../../../app/features/Room patients/GetRoompatientsslice";
 const Roompatients = () => {
   const dispatch = useDispatch();
@@ -43,13 +43,11 @@ const Roompatients = () => {
   };
   //=========HANDELERS ========
 
+  // @ts-ignore
 
-   // @ts-ignore
-   const { data : value, isLoading } = UseGetRoomPatients();
-   dispatch(fetchRoompatients(value))
-   const { roomPatients:data } = useSelector((state) => state.getroompatients);
-   
-   
+  const { data, isLoading } = UseGetRoomPatients();
+  dispatch(fetchRoompatients(data));
+
   if (isLoading) return <h2>loading ...</h2>;
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
@@ -59,11 +57,11 @@ const Roompatients = () => {
         <DataGrid
           rows={data.map((row) => ({
             id: row.id,
-            name: row.name,
-            phone: row.phone,
-            email: row.email,
-            static_role: row.static_role,
-            address: row.address,
+            patient: row.patient.name,
+            room:row.room.room_number ,
+            bed_number: row.bed_number,
+            date_in: row.date_in,
+            date_out: row.date_out || 'Not Selected',
             edit: "Edit",
             delete: "Delete",
           }))}
@@ -134,6 +132,7 @@ const Roompatients = () => {
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit Patients Info In The Room"}
+        editNurse={editNurse}
       />
       <DelRoomPatients
         isOpen={isOpenDel}
