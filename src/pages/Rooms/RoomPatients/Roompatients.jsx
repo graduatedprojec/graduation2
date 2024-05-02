@@ -13,7 +13,8 @@ import { UseGetRoomPatients } from "../../../hooks/HRoom Patients/UseGetRoomPati
 import { useDispatch } from "react-redux";
 import { fetchRoompatients } from "../../../app/features/Room patients/GetRoompatientsslice";
 const Roompatients = () => {
-
+  const StoredId = localStorage.getItem("roomId");
+  const roomIdStored =  JSON.parse(StoredId) 
   const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +24,8 @@ const Roompatients = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [editRoomPatients, seteditRoomPatients] = useState({
     patient_id:'' ,
-    room_id :'' ,
-    bed_number:'' ,
+    room_id :roomIdStored ,
+  bed_number:'' ,
     date_in:'' ,
     date_out:''
   });
