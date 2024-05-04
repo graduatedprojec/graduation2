@@ -8,158 +8,117 @@ import TitlePage from "../../components/Title page/TitlePage";
 import AddTools from "./Add Tools/AddTools";
 import EditTool from "./Edit Tools/EditTools";
 import DelTool from "./DelTools/DelTools";
+import { UseGetAllTools } from "../../hooks/HAllTools/UseGetAllTools";
+import { useDispatch } from "react-redux";
+import { fetchingTools } from "../../app/features/AllTools/GetAllToolsSlice";
 const Tools = () => {
+  const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
+  const [editTool, seteditTool] = useState({
+    id: 0,
+    name: "",
+    type:'' ,
+  });
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = () => setIsOpenEdit(true);
+  const openModalEdit = (tool) => {
+    setIsOpenEdit(true);
+    seteditTool(tool);
+  };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
+
+  const openModalDel = (tool) => {
+    setIsOpenDel(true);
+    seteditTool(tool);
+  };
   //=========HANDELERS ========
-  const EditHandedler = () => {
-    openModalEdit();
-  };
-  const delHandedler = () => {
-    openModalDel();
-  };
-  const rows = [
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      name: "Moaz Karem",
-      type: "type tools",
-      edit: "Edit",
-      delete: "Delete",
-    },
-  ];
+  const { data, isLoading } = UseGetAllTools();
+  dispatch(fetchingTools(data));
+  if (isLoading) return <h2>loading ...</h2>;
 
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-
-    {
-      field: "name",
-      headerName: "Name",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "type",
-      headerName: "Type Tool",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-
-    {
-      field: "edit",
-      headerName: "Edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-
-      renderCell: () => {
-        return (
-          <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
-          >
-            Edit
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord / "} page={"All Tools In Hospital "} />
       <AddButton add={openModal} title={"Add New Tool "} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            type: row.type,
+            edit: "Edit",
+            delete: "Delete",
+          }))}
+          // @ts-ignore
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+
+            // @ts-ignore
+            .concat([
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalEdit(params.row)}
+                    styles="bg-[#3D5045] text-[#71dd37]"
+                  >
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <
+// @ts-ignore
+                  Button
+                    onClick={() => openModalDel(params.row)}
+                    styles="bg-[#543641] text-[#ff3e1d]"
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddTools
         isOpen={isOpen}
         closeModal={closeModal}
@@ -169,11 +128,13 @@ const Tools = () => {
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit Tool Information"}
+        editTool={editTool}
+        seteditTool={seteditTool}
       />
       <DelTool
         isOpen={isOpenDel}
         closeModal={closeModalDel}
-        title={"Are Yoy Want To Delete Thit Tool"}
+        editTool={editTool}
       />
     </Box>
   );
