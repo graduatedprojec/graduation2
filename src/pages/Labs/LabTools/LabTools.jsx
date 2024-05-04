@@ -8,7 +8,11 @@ import AddButton from "../../../components/Add Button/AddButton";
 import AddLabTools from "./Add Lab Tools/AddLabTools";
 import EditLabTools from "./Edit Lab Tools/EditLabTools";
 import DelLabTools from "./Del Lab Tools/DelLabTools";
+import { fetchLabTools } from "../../../app/features/labs/GetLabToolsSlice";
+import { UseGetLabTools } from "../../../hooks/HLabs/HlabTools/UseGetLabTools";
+import { useDispatch } from "react-redux";
 const LabTools = () => {
+  const dispatch = useDispatch()
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
@@ -16,164 +20,54 @@ const LabTools = () => {
   // ======= EDIT MODAL FUNCTIUONS & STATES
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = () => setIsOpenEdit(true);
+
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
-  const openModalDel = () => setIsOpenDel(true);
-  //=========HANDELERS ========
-  const EditHandedler = () => {
-    openModalEdit();
-  };
-  const delHandedler = () => {
-    openModalDel();
-  };
-  const rows = [
-    {
-      id: 1,
 
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
 
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
+  const { data, isLoading } = UseGetLabTools()
+  dispatch(fetchLabTools(data));
+  if (isLoading) return <h2>loading ...</h2>;
 
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-
-      labId: 985764,
-      toolId: 511,
-      toolName: "any name",
-      edit: "Edit",
-      delete: "Delete",
-    },
-  ];
-
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-    {
-      field: "labId",
-      headerName: "Lab Id",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "toolId",
-      headerName: "Tool Id",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-
-    {
-      field: "toolName",
-      headerName: "Tool Name",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-
-    {
-      field: "edit",
-      headerName: "Edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-
-      renderCell: () => {
-        return (
-          <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
-          >
-            Edit
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord / Labs / "} page={"Lab Tools"} />
       <AddButton add={openModal} title={"Add New Lab Tools"} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            tool: row.tool.name,
+            quantity: row.quantity,
+            edit: "Edit",
+            delete: "Delete",
+          }))}
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+
+            .concat([])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddLabTools
         isOpen={isOpen}
         closeModal={closeModal}

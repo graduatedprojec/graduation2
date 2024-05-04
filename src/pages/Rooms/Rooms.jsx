@@ -6,7 +6,6 @@ import Button from "../../Ui/Button";
 import TitlePage from "../../components/Title page/TitlePage";
 import { useNavigate } from "react-router-dom";
 import AddButton from "../../components/Add Button/AddButton";
-import { useMemo } from "react";
 import AddRoom from "./Add Room/AddRoom";
 import EditRoom from "./Edit Room/EditRoom";
 import DelRoom from "./Del Room/DelRoom";
@@ -15,6 +14,7 @@ import { useState , useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchRooms } from "../../app/features/Rooms/GetRoomsSlice";
 import { getRoomId } from "../../app/features/Room patients/GetRoompatientsslice";
+import { getRoomToolId } from "../../app/features/RoomTools/GetRoomToolsSlice";
 const Rooms = () => {
   const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
@@ -54,89 +54,26 @@ const Rooms = () => {
     navigate(`/rooms/${roomId}/roompatients`);
   };
 
-  const navigateRoomTools = () => {
-    navigate("/rooms/roomtools");
+
+
+
+
+
+  const navigateRoomTools = (room) => {
+    const roomId = room.id;
+    localStorage.setItem("roomId", roomId);
+    dispatch(getRoomToolId(roomId));
+    navigate(`/rooms/${roomId}/roomtools`);
+   
   };
+
+
+
   const { data, isLoading } = UseGetRooms();
    dispatch(fetchRooms(data))
-  const createColumns = useMemo(() => {
-    
-    if (!data) return []; // Return an empty array if data is not available
 
-    return Object.keys(data[0])
-      .map((key) => {
-        const isEditOrDeleteColumn = key === "edit" || key === "delete";
-        if (isEditOrDeleteColumn) {
-          return null;
-        }
-        return {
-          field: key,
-          headerName: key.charAt(0).toUpperCase() + key.slice(1),
-          width: 150,
-          flex: 1,
-          align: "center",
-          headerAlign: "center",
-        };
-      })
-      .filter(Boolean)
-      .concat([
-        {
-          field: "patients",
-          headerName: "Delete",
-          width: 150,
-          flex: 1,
-          align: "center",
-          headerAlign: "center",
-          renderCell: (params) => (
-            <Button
-              onClick={() => navigatePatients(params)}
-              styles={"bg-[#2B4B62] text-[#03c3ec]"}
-            >
-              Patients
-            </Button>
-          ),
-        },
-        {
-          field: "tools",
-          headerName: "Delete",
-          width: 150,
-          flex: 1,
-          align: "center",
-          headerAlign: "center",
-          renderCell: () => (
-            <Button onClick={() => navigateRoomTools()} styles={"bg-[#54473C] text-[#ffab00]"}>
-              Tools
-            </Button>
-          ),
-        },
-        {
-          field: "edit",
-          headerName: "Edit",
-          width: 150,
-          flex: 1,
-          align: "center",
-          headerAlign: "center",
-          renderCell: (params) => (
-            <Button onClick={() => openModalEdit(params.row)} styles="bg-[#3D5045] text-[#71dd37]">
-              Edit
-            </Button>
-          ),
-        },
-        {
-          field: "delete",
-          headerName: "Delete",
-          width: 150,
-          flex: 1,
-          align: "center",
-          headerAlign: "center",
-          renderCell: (params) => (
-            <Button onClick={() => openModalDel(params.row)} styles="bg-[#543641] text-[#ff3e1d]">
-              Delete
-            </Button>
-          ),
-        },
-      ]);
-  }, [data]); // Dependency array
+
+
 
   dispatch(fetchRooms(data));
 
@@ -154,7 +91,80 @@ const Rooms = () => {
             bed_numbers: row.bed_numbers,
             delete: "Delete",
           }))}
-          columns={createColumns}
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+            .concat([
+              {
+                field: "patients",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => navigatePatients(params)}
+                    styles={"bg-[#2B4B62] text-[#03c3ec]"}
+                  >
+                    Patients
+                  </Button>
+                ),
+              },
+              {
+                field: "tools",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button onClick={() => navigateRoomTools(params)} 
+                  styles={"bg-[#54473C] text-[#ffab00]"}>
+                    Tools
+                  </Button>
+                ),
+              },
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button onClick={() => openModalEdit(params.row)} styles="bg-[#3D5045] text-[#71dd37]">
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button onClick={() => openModalDel(params.row)} styles="bg-[#543641] text-[#ff3e1d]">
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
           slots={{
             toolbar: GridToolbar,
           }}

@@ -6,13 +6,14 @@ import Button from "../../Ui/Button";
 import { useNavigate } from "react-router-dom";
 import TitlePage from "../../components/Title page/TitlePage";
 import AddButton from "../../components/Add Button/AddButton";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import AddLab from "./Add Lab/AddLab";
 import EditLab from "./Edit Lab/EditLab";
 import DelLab from "./Del Lab/DelLab";
 import { useDispatch } from "react-redux";
 import { UsegetLabs } from "../../hooks/HLabs/UseGetLabs";
 import { fetchLabs } from "../../app/features/labs/GetLabsSlice";
+import { getLabToolId } from "../../app/features/labs/GetLabToolsSlice";
 const Labs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +45,15 @@ const Labs = () => {
     seteditLab(nurse);
   };
   //=========HANDELERS ========
+
+
+  useEffect(() => {
+    const storedLabId = localStorage.getItem("labId");
+    if (storedLabId) {
+      dispatch(getLabToolId(storedLabId));
+    }
+  }, [dispatch]);
+
   const navigatePatients = (lab) => {
     // const roomId = room.id;
     // localStorage.setItem("roomId", roomId);
@@ -51,9 +61,19 @@ const Labs = () => {
     navigate(`/labs/${lab.id}/labpatients`);
   };
 
-  const navigateRoomTools = () => {
-    navigate("/labs/labtools");
+
+
+
+
+  const navigateRoomTools = (lab) => {
+    const labId = lab.id;
+    localStorage.setItem("labId", labId);
+    dispatch(getLabToolId(labId));
+    navigate(`/labs/${labId}/labtools`);
   };
+
+
+
   const { data, isLoading } = UsegetLabs();
   dispatch(fetchLabs(data));
   if (isLoading) return <h2>loading ...</h2>;
@@ -106,14 +126,14 @@ const Labs = () => {
               },
               {
                 field: "tools",
-                headerName: "Delete",
+                headerName: "Tools",
                 width: 150,
                 flex: 1,
                 align: "center",
                 headerAlign: "center",
-                renderCell: () => (
+                renderCell: (params) => (
                   <Button
-                    onClick={() => navigateRoomTools()}
+                    onClick={() => navigateRoomTools(params)}
                     styles={"bg-[#54473C] text-[#ffab00]"}
                   >
                     Tools
