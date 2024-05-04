@@ -1,7 +1,7 @@
+// @ts-nocheck
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { GridToolbar } from "@mui/x-data-grid";
-import Button from "../../../Ui/Button";
 import TitlePage from "../../../components/Title page/TitlePage";
 import { useState } from "react";
 import AddButton from "../../../components/Add Button/AddButton";
@@ -12,7 +12,7 @@ import { fetchLabTools } from "../../../app/features/labs/GetLabToolsSlice";
 import { UseGetLabTools } from "../../../hooks/HLabs/HlabTools/UseGetLabTools";
 import { useDispatch } from "react-redux";
 const LabTools = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
@@ -25,8 +25,7 @@ const LabTools = () => {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
 
-
-  const { data, isLoading } = UseGetLabTools()
+  const { data, isLoading } = UseGetLabTools();
   dispatch(fetchLabTools(data));
   if (isLoading) return <h2>loading ...</h2>;
 
