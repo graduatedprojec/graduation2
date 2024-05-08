@@ -10,8 +10,8 @@ import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import LineCharts from "../../Linescharts/LineCharts";
 const RightSide = () => {
   return (
-    <Grid item xs={12} sm={3}>
-          <Paper sx={{ width: "100%", p: 1 , height:'190px'}}>
+    <Grid item xs={12} sm={6} lg={3}>
+          <Paper sx={{ width: "100%", px: 1  , paddingY:{lg:'17px'}}}>
             <Box
               sx={{
                 width: "100%",

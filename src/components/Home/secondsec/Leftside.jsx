@@ -7,7 +7,7 @@ import { IconButton } from "@mui/material";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 const Leftside = () => {
   return (
-    <Grid item xs={12} sm={6}>
+    <Grid item xs={12} md={12} lg={6} sm={12}>
       <Paper
         sx={{
           width: "100%",

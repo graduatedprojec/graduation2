@@ -6,16 +6,30 @@ import Barchartes from "../../BarChartes/Barchartes";
 import LineCharts from "../../Linescharts/LineCharts";
 const Rightside = () => {
   return (
-    <Grid item gap={2} xs={12} sm={6}>
-      <Box gap={2} sx={{ display: "flex", flexDirection: "column" }}>
-        <Box sx={{ display: "flex", height: "180px" }} gap={2}>
+    <Grid item gap={2} lg={6} xs={12} sm={12}>
+      <Box gap={2} sx={{ display: "flex", flexDirection: "column" , justifyContent:'space-between'  }}>
+        <Box
+          sx={{
+            display: "flex",
+            height: "180px",
+            flexWrap: {
+              lg: "nowrap",
+              xl: "nowrap",
+              md: "nowrap",
+              xs: "wrap",
+              sm: "wrap",
+            },
+          }}
+          gap={2}
+        >
           <Paper
             sx={{
-              width: "49%",
+              width: { lg: "49%", md: "49%", sm: "98%", xs: "98%" },
               p: 2,
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              bgcolor: "red",
             }}
           >
             <Box
@@ -69,7 +83,17 @@ const Rightside = () => {
               icon arrow here 28.8{" "}
             </Typography>
           </Paper>
-          <Paper sx={{ width: "49%", p: 2 }}>
+
+
+
+          <Paper
+            sx={{
+             bgcolor:'green' ,
+              p: 2,
+             
+              width: { lg: "49%", md: "49%", sm: "98%", xs: "98%" },
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -92,9 +116,24 @@ const Rightside = () => {
               showaxisandgrids={false}
             />
           </Paper>
+
+
+
+
+
         </Box>
 
-        <Paper sx={{ width: "100%", p: 1, height: "195px" }}>
+
+
+
+        <Paper
+          sx={{
+            width: "100%",
+            p: 1,
+            height: { lg: "195px", md: "195px", sm: "275px", xs: "275px" },
+            flexGrow: { xs: 1 },
+          }}
+        >
           <Box
             sx={{
               width: "100%",
@@ -163,6 +202,10 @@ const Rightside = () => {
             <LineCharts width={"85%"} height={"140px"} colore={"#ffab00"} />
           </Box>
         </Paper>
+
+
+
+
       </Box>
     </Grid>
   );
