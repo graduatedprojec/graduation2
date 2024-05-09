@@ -12,15 +12,19 @@ const Leftside = () => {
         sx={{
           width: "100%",
           p: 2,
+          
+          height: { xl: "396px", lg: "396px", md: "396px" },
         }}
       >
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex"  , flexDirection:{lg:'row' , xl:'row' , md:'row' , sm:'column' , xs:'column'}, alignItems:{sm:'center' , xs:'center' , lg:'inherit' , xl:'inherit' , md:'inherit' } }}>
           <Box sx={{ width: "70%"  }}>
             <Typography sx={{color: "rgpa(235 , 235 , 219 , .6)"}}>Total Renevue</Typography>
             <Barchartes width={'100%'} height={'340px'} showaxisandgrids={true}/>
           </Box>
           <Box
-            display={"flex"}
+            display={"flex"} 
+            
+           
             ml={2}
             justifyContent={"space-around"}
             flexDirection={"column"}
