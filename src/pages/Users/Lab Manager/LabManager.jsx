@@ -14,25 +14,39 @@ import { fetchNursing } from "../../../app/features/nursing/GetNursingSlice";
 import { useDispatch } from "react-redux";
 const LabManager = () => {
   const dispatch = useDispatch();
+  const [addLabManager, setaddLabManager] = useState({
+    id: 0,
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    static_role: "",
+  });
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
   // ======= EDIT MODAL FUNCTIUONS & STATES
+  const [editLabmanager, seteditLabmanager] = useState({
+    id: 0,
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    static_role: "",
+    address: "",
+  });
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const closeModalEdit = () => setIsOpenEdit(false);
-  const openModalEdit = () => setIsOpenEdit(true);
+  const openModalEdit = (labmanager) => {
+    setIsOpenEdit(true);
+    seteditLabmanager(labmanager);
+  };
   // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
   const openModalDel = () => setIsOpenDel(true);
   //=========HANDELERS ========
-  const EditHandedler = () => {
-    openModalEdit();
-  };
-  const delHandedler = () => {
-    openModalDel();
-  };
 
   const { data, isLoading } = UseGetLabManager();
   dispatch(fetchNursing(data));
@@ -116,16 +130,22 @@ const LabManager = () => {
         isOpen={isOpen}
         closeModal={closeModal}
         title={"Add New Lab Manager"}
+        addLabManager={addLabManager}
+        setaddLabManager={setaddLabManager}
       />
       <EditLabManager
         isOpenEdit={isOpenEdit}
         closeModalEdit={closeModalEdit}
         title={"Edit Lab Manager Info"}
+        editlabmanager = {editLabmanager}
+        seteditlabmanager = {seteditLabmanager}
       />
       <DelLabManager
         isOpen={isOpenDel}
         closeModal={closeModalDel}
         title={"Are You Want To Del Lab Manager"}
+        editlabmanager = {editLabmanager}
+        seteditlabmanager = {seteditLabmanager}
       />
     </Box>
   );
