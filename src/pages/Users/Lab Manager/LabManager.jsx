@@ -9,7 +9,11 @@ import AddLabManager from "./Add Lab Manager/AddLabManager";
 import EditLabManager from "./Edit Lab Manager/EditLabManager";
 import DelLabManager from "./Del Lab Manager/DelLabManager";
 import AddButton from "../../../components/Add Button/AddButton";
+import { UseGetLabManager } from "../../../hooks/HLabs/HLabManager/UseGetLabManager";
+import { fetchNursing } from "../../../app/features/nursing/GetNursingSlice";
+import { useDispatch } from "react-redux";
 const LabManager = () => {
+  const dispatch = useDispatch();
   // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
@@ -29,205 +33,85 @@ const LabManager = () => {
   const delHandedler = () => {
     openModalDel();
   };
-  const rows = [
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
 
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-    {
-      id: 1,
-      Name: "Moaz Karem",
-      phone: "(751)153-5454",
-      email: "Zead@jmail.com",
-      address: "01952",
-      profile: "profile",
-      edit: "Edit",
-      delete: "Delete",
-    },
-  ];
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      align: "center",
-      headerAlign: "center",
-      width: 33,
-    },
-    {
-      field: "Name",
-      headerName: "Name",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "phone",
-      headerName: "Phone",
-      width: 150,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-    },
-    {
-      field: "profile",
-      headerName: "profile",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return <Button styles={"bg-[#3C3D65] text-[#696cff]"}>Profile</Button>;
-      },
-    },
-    {
-      field: "edit",
-      headerName: "edit",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button
-            onClick={EditHandedler}
-            styles={"bg-[#3D5045] text-[#71dd37]"}
-          >
-            Edit
-          </Button>
-        );
-      },
-    },
-    {
-      field: "Delete",
-      headerName: "delete",
-      width: 150,
-      flex: 1,
-      align: "center",
-      headerAlign: "center",
-      renderCell: () => {
-        return (
-          <Button onClick={delHandedler} styles={"bg-[#543641] text-[#ff3e1d]"}>
-            Delite
-          </Button>
-        );
-      },
-    },
-  ];
+  const { data, isLoading } = UseGetLabManager();
+  dispatch(fetchNursing(data));
+  if (isLoading) return <h2>loading ...</h2>;
+
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord/Users / "} page={"Lab Managers"} />
       <AddButton add={openModal} title={"Add New Lab Manager"} />
-      <DataGrid
-        rows={rows}
-        // @ts-ignore
-        columns={columns}
-        slots={{
-          toolbar: GridToolbar,
-        }}
-      />
+      {data && data.length > 0 ? (
+        <DataGrid
+          rows={data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            phone: row.phone,
+            email: row.email,
+            static_role: row.static_role,
+            address: row.address,
+            edit: "Edit",
+            delete: "Delete",
+          }))}
+          columns={Object.keys(data[0])
+            .map((key) => {
+              const isEditOrDeleteColumn = key === "edit" || key === "delete";
+              if (isEditOrDeleteColumn) {
+                return null;
+              }
+              return {
+                field: key,
+                headerName: key.charAt(0).toUpperCase() + key.slice(1),
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+              };
+            })
+            .filter(Boolean)
+
+            .concat([
+              {
+                field: "edit",
+                headerName: "Edit",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => openModalEdit(params.row)}
+                    styles="bg-[#3D5045] text-[#71dd37]"
+                  >
+                    Edit
+                  </Button>
+                ),
+              },
+              {
+                field: "delete",
+                headerName: "Delete",
+                width: 150,
+                flex: 1,
+                align: "center",
+                headerAlign: "center",
+                renderCell: (params) => (
+                  <Button
+                    onClick={() => openModalDel(params.row)}
+                    styles="bg-[#543641] text-[#ff3e1d]"
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ])}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <p>No data available</p>
+      )}
       <AddLabManager
         isOpen={isOpen}
         closeModal={closeModal}

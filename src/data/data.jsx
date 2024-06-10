@@ -34,11 +34,6 @@ export const Sidedata = [
         title: "Lab Manager",
         icon: <InboxIcon />,
       },
-      {
-        path: "/users/roommanagers",
-        title: "Room Manager",
-        icon: <InboxIcon />,
-      },
     ],
   },
   {
@@ -64,7 +59,6 @@ export const Sidedata = [
     title: "Patients",
     icon: <InboxIcon />,
     nestedItems: [],
-
   },
   {
     path: "/tools",
@@ -89,12 +83,6 @@ export const Sidedata = [
     title: "Inventory",
     icon: <InboxIcon />,
     nestedItems: [
-      {
-        path: "/inventory/pharmacy",
-        title: "Pharmacy ",
-        icon: <InboxIcon />,
-        nestedItems: [],
-      },
       {
         path: "/inventory/tool",
         title: "Tool ",
