@@ -48,12 +48,7 @@ export const Sidedata = [
     icon: <MailIcon />,
     nestedItems: [],
   },
-  {
-    path: "/departments",
-    title: "Departments",
-    icon: <InboxIcon />,
-    nestedItems: [],
-  },
+ 
   {
     path: "/patients",
     title: "Patients",

@@ -11,7 +11,7 @@ export const loginSchema = yup
       .min(6, "password must be at least 6 characters"),
   })
   .required();
-
+//============================= USER SCHEMA ===============
 
   export const userSchema = yup
   .object({
@@ -33,3 +33,15 @@ export const loginSchema = yup
       .min(3, "address must be at least 3 characters"),
   })
   .required();
+
+
+//============================= LABS SCHEMA ===============
+export const labsSchema = yup
+.object({
+  name: yup
+    .string()
+    .required("name is required field")
+    .min(3, "name must be at least 3 characters"),
+   
+})
+.required();

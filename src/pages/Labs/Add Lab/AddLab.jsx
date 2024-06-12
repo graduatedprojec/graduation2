@@ -1,31 +1,31 @@
+// @ts-nocheck
 import Modal from "../../../Ui/Modal";
 import Input from "../../../Ui/Input";
 import Label from "../../../Ui/Label";
 import SubmitButton from "../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../components/Cancel Button/Cancelbtn";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import UseAddLab from "../../../hooks/HLabs/UseAddLab";
+import { useForm } from "react-hook-form";
+import { resourse_form } from "../../../data/resources_data/resourse_forms";
+import { labsSchema } from "../../../validation/validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import ErrMessage from "../../../errors/Error input message/ErrMessage";
 // eslint-disable-next-line react/prop-types
 const AddLab = ({ isOpen, closeModal, title }) => {
-  const [labData, setlabData] = useState({
-    name: "",
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(labsSchema),
   });
   const { addLabData, loading } = UseAddLab();
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const changeHandler = (e) => {
-    const { value, name } = e.target;
-    setlabData({
-      ...labData,
-      [name]: value,
-    });
-  };
-  const onAddHandler = async (e) => {
-    e.preventDefault();
-    const result = await addLabData(labData, userData);
+  const onSubmit = async (data) => {
+    const result = await addLabData(data, userData);
     if (result.success) {
       closeModal();
       toast.success("Success Adding!", {
@@ -50,23 +50,25 @@ const AddLab = ({ isOpen, closeModal, title }) => {
       });
     }
   };
+
+  //==================== RENDER FORM ==========
+  const lab_render = resourse_form.map(
+    ({ id, name, label, type, validation }, idx) => (
+      <div key={idx} className="flex gap-2 flex-col">
+        <Label htmlFor={id}>{label}:</Label>
+        <Input type={type} id={id} {...register(name, validation)} />
+        {errors[name] && <ErrMessage msg={errors[name]?.message} />}
+      </div>
+    )
+  );
+
   return (
     <div>
       <Modal title={title} isOpen={isOpen} closeModal={closeModal}>
-        <form onSubmit={onAddHandler}>
-        <div className="flex gap-2 flex-col">
-            <Label htmlFor="Name"> Name : </Label>
-            <Input
-              // @ts-ignore
-              id="Name"
-              value={labData.name}
-              onChange={changeHandler}
-              name="name"
-            />
-          </div>
-      
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {lab_render}
           <div className="flex justify-center items-center space-x-3">
-            <SubmitButton loading={loading}> Add </SubmitButton>
+            <SubmitButton loading={loading}>Add</SubmitButton>
             <Cancelbtn onClick={closeModal}>Cancel</Cancelbtn>
           </div>
         </form>

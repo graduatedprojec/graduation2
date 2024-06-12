@@ -29,12 +29,11 @@ const Login = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const {status , data:logedData} = await axiosInstance.post(
+      const { status, data: logedData } = await axiosInstance.post(
         "/api/auth/login",
         data
       );
 
-      
       if (status === 200) {
         toast.success("Success login you will go to home page !", {
           duration: 1000,
@@ -45,8 +44,13 @@ const Login = () => {
           },
         });
       }
-    localStorage.setItem("logged", JSON.stringify(logedData));
+      localStorage.setItem("logged", JSON.stringify(logedData));
       dispatch(getTokens(logedData));
+
+      setTimeout(() => {
+        localStorage.removeItem("logged");
+        location.replace("/login");
+      }, 3600000);
 
       setTimeout(() => {
         location.replace("/");
