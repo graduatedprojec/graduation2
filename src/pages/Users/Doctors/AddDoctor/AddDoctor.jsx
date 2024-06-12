@@ -1,6 +1,5 @@
 // @ts-nocheck
 /* eslint-disable react/prop-types */
-
 import Modal from "../../../../Ui/Modal";
 import Input from "../../../../Ui/Input";
 import Label from "../../../../Ui/Label";
@@ -56,17 +55,15 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
   };
 
   //==================== RENDER FORM ==========
-  const user_render = user_form.map(({ id, name, label, type, validation }, idx) => (
-    <div key={idx} className="flex gap-2 flex-col">
-      <Label htmlFor={id}>{label}:</Label>
-      <Input
-        type={type}
-        id={id}
-        {...register(name, validation)}
-      />
-      {errors[name] && <ErrMessage msg={errors[name]?.message} />}
-    </div>
-  ));
+  const user_render = user_form.map(
+    ({ id, name, label, type, validation }, idx) => (
+      <div key={idx} className="flex gap-2 flex-col">
+        <Label htmlFor={id}>{label}:</Label>
+        <Input type={type} id={id} {...register(name, validation)} />
+        {errors[name] && <ErrMessage msg={errors[name]?.message} />}
+      </div>
+    )
+  );
 
   return (
     <div>
