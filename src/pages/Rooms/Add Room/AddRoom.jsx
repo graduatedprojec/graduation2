@@ -5,29 +5,27 @@ import Label from "../../../Ui/Label";
 import SubmitButton from "../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../components/Cancel Button/Cancelbtn";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import UseAddRoom from "../../../hooks/HRooms/UseAddRoom";
-
+import { rooms_form } from "../../../data/resources_data/resourse_forms";
+import { roomsSchema } from "../../../validation/validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import ErrMessage from "../../../errors/Error input message/ErrMessage";
+import { useForm } from "react-hook-form";
 // eslint-disable-next-line react/prop-types
 const AddRoom = ({ isOpen, closeModal, title }) => {
-  const [roomData, setroomData] = useState({
-    room_number: "",
-    bed_numbers: "",
-  });
   const { addRoomData, loading } = UseAddRoom();
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const changeHandler = (e) => {
-    const { value, name } = e.target;
-    setroomData({
-      ...roomData,
-      [name]: value,
-    });
-  };
-  const onAddHandler = async (e) => {
-    e.preventDefault();
-    const result = await addRoomData(roomData, userData);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(roomsSchema),
+  });
+  const onSubmit = async (data) => {
+    const result = await addRoomData(data, userData);
     if (result.success) {
       closeModal();
       toast.success("Success Adding!", {
@@ -52,30 +50,23 @@ const AddRoom = ({ isOpen, closeModal, title }) => {
       });
     }
   };
+  //==================== RENDER FORM ==========
+  const room_render = rooms_form.map(
+    ({ id, name, label, type, validation }, idx) => (
+      <div key={idx} className="flex gap-2 flex-col">
+        <Label htmlFor={id}>{label}:</Label>
+        <Input type={type} id={id} {...register(name, validation)} />
+        {errors[name] && <ErrMessage msg={errors[name]?.message} />}
+      </div>
+    )
+  );
   return (
     <div>
       <Modal title={title} isOpen={isOpen} closeModal={closeModal}>
-        <form onSubmit={onAddHandler}>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="room_number"> Room Number : </Label>
-            <Input
-              id="room_number"
-              name="room_number"
-              onChange={changeHandler}
-              value={roomData.room_number}
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="bed_numbers"> Bed Number : </Label>
-            <Input
-              id="bed_numbers"
-              name="bed_numbers"
-              onChange={changeHandler}
-              value={roomData.bed_numbers}
-            />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {room_render}
           <div className="flex justify-center items-center space-x-3">
-            <SubmitButton loading={loading}> Add </SubmitButton>
+            <SubmitButton loading={loading}>Add</SubmitButton>
             <Cancelbtn onClick={closeModal}>Cancel</Cancelbtn>
           </div>
         </form>

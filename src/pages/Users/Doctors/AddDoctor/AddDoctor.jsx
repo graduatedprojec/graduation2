@@ -5,14 +5,14 @@ import Input from "../../../../Ui/Input";
 import Label from "../../../../Ui/Label";
 import SubmitButton from "../../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
-import { useForm } from "react-hook-form";
+
 import toast from "react-hot-toast";
 import UseAddDoctorData from "../../../../hooks/HDoctors/UseAddDoctorData";
 import { user_form } from "../../../../data/user_validation/User_valid";
 import { userSchema } from "../../../../validation/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ErrMessage from "../../../../errors/Error input message/ErrMessage";
-
+import { useForm } from "react-hook-form";
 const AddDoctor = ({ isOpen, closeModal, title }) => {
   const {
     register,

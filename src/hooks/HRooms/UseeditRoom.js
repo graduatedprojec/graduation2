@@ -5,13 +5,14 @@ const UseEditRoom = () => {
   const editRoomData = async (editRoom, userData) => {
     setLoading(true);
     try {
-      const { status } = await axiosInstance.post(
+      const { status , data } = await axiosInstance.post(
         `/api/rooms/${editRoom.id}/update`,
         { ...editRoom },
         {
           headers: { Authorization: `Bearer ${userData.data.access_token}` },
         }
       );
+      console.log(data , 'use edit room');
       return { success: status === 200 };
     } catch (error) {
       const errorMessage =

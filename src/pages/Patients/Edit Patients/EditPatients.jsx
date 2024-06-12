@@ -13,13 +13,7 @@ import { patients_schema } from "../../../validation/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ErrMessage from "../../../errors/Error input message/ErrMessage";
 import { useEffect } from "react";
-const EditPatients = ({
-  isOpenEdit,
-  closeModalEdit,
-  title,
-
-  editPatients,
-}) => {
+const EditPatients = ({ isOpenEdit, closeModalEdit, title, editPatients }) => {
   const { editPatientData, loading } = UseEditPatientsData(); // Use the custom hook
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
@@ -75,44 +69,11 @@ const EditPatients = ({
       </div>
     )
   );
-  // const changeHandler = (e) => {
-  //   const { value, name } = e.target;
-  //   setEditPatients({
-  //     ...editPatients,
-  //     [name]: value,
-  //   });
-  // };
-  // const onSubmitHandler = async (e) => {
-  //   e.preventDefault();
-  //   const result = await editPatientData(editPatients, userData);
-  //   if (result.success) {
-  //     closeModalEdit();
-  //     toast.success("Success Updated!", {
-  //       duration: 1000,
-  //       style: {
-  //         borderRadius: "10px",
-  //         background: "#333",
-  //         color: "#fff",
-  //       },
-  //     });
-  //     setTimeout(() => {
-  //       window.location.reload();
-  //     }, 1500);
-  //   } else {
-  //     toast.error(result.error, {
-  //       duration: 1000,
-  //       style: {
-  //         borderRadius: "10px",
-  //         background: "#333",
-  //         color: "#fff",
-  //       },
-  //     });
-  //   }
-  // };
+
   return (
     <div>
       <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {patients_render}
           <div className="flex justify-center items-center space-x-3">
             <SubmitButton loading={loading}> Edit </SubmitButton>
@@ -123,5 +84,4 @@ const EditPatients = ({
     </div>
   );
 };
-
 export default EditPatients;

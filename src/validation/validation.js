@@ -35,6 +35,22 @@ export const loginSchema = yup
   .required();
 
 
+//============================= ROOMS SCHEMA ===============
+export const roomsSchema = yup
+.object({
+  room_number: yup
+    .string()
+    .required("room number is required field")
+    .min(6, "room number must be at least 6 characters"),
+    bed_numbers: yup
+    .string()
+    .required("bed number is required field")
+    .min(5, "bed number must be at least 5 characters"),
+
+   
+})
+.required();
+
 //============================= LABS SCHEMA ===============
 export const labsSchema = yup
 .object({

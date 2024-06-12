@@ -56,3 +56,27 @@ export const patient_form = [
     },
   },
 ];
+
+//========================= ROOMS DATA ==========
+export const rooms_form = [
+  {
+    id: "roomnumber",
+    label: "Room Number",
+    name: "room_number",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+  {
+    id: "bednumber",
+    label: "Bed Number",
+    name: "bed_numbers",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+];
