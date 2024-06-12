@@ -45,3 +45,12 @@ export const labsSchema = yup
    
 })
 .required();
+
+export const addlabSchema = yup.object().shape({
+  tool_id: yup.string().required("Tool ID is required"),
+  quantity: yup
+    .number()
+    .typeError("Quantity must be a number")
+    .positive("Quantity must be positive")
+    .required("Quantity is required"),
+});

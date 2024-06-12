@@ -6,7 +6,7 @@ import Button from "../../Ui/Button";
 import { useNavigate } from "react-router-dom";
 import TitlePage from "../../components/Title page/TitlePage";
 import AddButton from "../../components/Add Button/AddButton";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import AddLab from "./Add Lab/AddLab";
 import EditLab from "./Edit Lab/EditLab";
 import DelLab from "./Del Lab/DelLab";
@@ -17,11 +17,9 @@ import { getLabToolId } from "../../app/features/labs/GetLabToolsSlice";
 const Labs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // ======= ADD MODAL FUNCTIUONS & STATES
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
-  // ======= EDIT MODAL FUNCTIUONS & STATES
   const [editLab, seteditLab] = useState({
     id: 0,
     name: "",
@@ -37,47 +35,30 @@ const Labs = () => {
     setIsOpenEdit(true);
     seteditLab(nurse);
   };
-  // ======= Del MODAL FUNCTIUONS & STATES
   const [isOpenDel, setIsOpenDel] = useState(false);
   const closeModalDel = () => setIsOpenDel(false);
   const openModalDel = (nurse) => {
     setIsOpenDel(true);
     seteditLab(nurse);
   };
-  //=========HANDELERS ========
-
-
   useEffect(() => {
     const storedLabId = localStorage.getItem("labId");
     if (storedLabId) {
       dispatch(getLabToolId(storedLabId));
     }
   }, [dispatch]);
-
   const navigatePatients = (lab) => {
-    // const roomId = room.id;
-    // localStorage.setItem("roomId", roomId);
-    // dispatch(getRoomId(roomId));
     navigate(`/labs/${lab.id}/labpatients`);
   };
-
-
-
-
-
   const navigateRoomTools = (lab) => {
     const labId = lab.id;
     localStorage.setItem("labId", labId);
     dispatch(getLabToolId(labId));
     navigate(`/labs/${labId}/labtools`);
   };
-
-
-
   const { data, isLoading } = UsegetLabs();
   dispatch(fetchLabs(data));
   if (isLoading) return <h2>loading ...</h2>;
-
   return (
     <Box sx={{ height: 600, width: "98%", mx: "auto" }}>
       <TitlePage path={"Dashbord / "} page={"Lab"} />

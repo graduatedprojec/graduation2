@@ -1,12 +1,14 @@
 // eslint-disable-next-line react/prop-types
 const ErrMessage = ({ msg }) => {
-  return (
-   msg ? <span
-      className={`text-red-700 ml-3 font-semibold `}
-     // @ts-ignore
-     
-    > {msg} </span> : null
-  );
+  return msg ? (
+    <p
+      className={`text-red-500 capitalize ml-3`}
+      // @ts-ignore
+    >
+      {" "}
+      {msg}{" "}
+    </p>
+  ) : null;
 };
 
-export default ErrMessage ;
+export default ErrMessage;
