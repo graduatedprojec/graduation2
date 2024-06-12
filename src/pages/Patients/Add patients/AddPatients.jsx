@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Modal from "../../../Ui/Modal";
 import Input from "../../../Ui/Input";
 import Label from "../../../Ui/Label";
@@ -5,29 +6,26 @@ import SubmitButton from "../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../components/Cancel Button/Cancelbtn";
 import UseAddPatients from "../../../hooks/HPatients/UseAddPatients";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { patient_form } from "../../../data/resources_data/resourse_forms";
+import { patients_schema } from "../../../validation/validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import ErrMessage from "../../../errors/Error input message/ErrMessage";
 // eslint-disable-next-line react/prop-types
 const AddPatients = ({ isOpen, closeModal, title }) => {
-  const [patientData, setpatientData] = useState({
-    name: "",
-    gender: "",
-    address: "",
-    disease: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(patients_schema),
   });
   const { addPatientData, loading } = UseAddPatients();
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const changeHandler = (e) => {
-    const { value, name } = e.target;
-    setpatientData({
-      ...patientData,
-      [name]: value,
-    });
-  };
-  const onAddHandler = async (e) => {
-    e.preventDefault();
-    const result = await addPatientData(patientData, userData);
+  const onSubmit = async (data) => {
+    const result = await addPatientData(data, userData);
     if (result.success) {
       closeModal();
       toast.success("Success Adding!", {
@@ -52,53 +50,23 @@ const AddPatients = ({ isOpen, closeModal, title }) => {
       });
     }
   };
+  //==================== RENDER FORM ==========
+  const patients_render = patient_form.map(
+    ({ id, name, label, type, validation }, idx) => (
+      <div key={idx} className="flex gap-2 flex-col">
+        <Label htmlFor={id}>{label}:</Label>
+        <Input type={type} id={id} {...register(name, validation)} />
+        {errors[name] && <ErrMessage msg={errors[name]?.message} />}
+      </div>
+    )
+  );
   return (
     <div>
       <Modal title={title} isOpen={isOpen} closeModal={closeModal}>
-        <form onSubmit={onAddHandler}>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="Name"> Name : </Label>
-            <Input
-              // @ts-ignore
-              id="Name"
-              value={patientData.name}
-              onChange={changeHandler}
-              name="name"
-            />
-          </div>
-
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="address"> Address : </Label>
-            <Input
-              // @ts-ignore
-              id="address"
-              value={patientData.address}
-              onChange={changeHandler}
-              name="address"
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="gender"> Gender : </Label>
-            <Input
-              // @ts-ignore
-              id="gender"
-              value={patientData.gender}
-              onChange={changeHandler}
-              name="gender"
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="disease"> Disease : </Label>
-            <Input
-              // @ts-ignore
-              id="disease"
-              value={patientData.disease}
-              onChange={changeHandler}
-              name="disease"
-            />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {patients_render}
           <div className="flex justify-center items-center space-x-3">
-            <SubmitButton loading={loading}> Add </SubmitButton>
+            <SubmitButton loading={loading}>Add</SubmitButton>
             <Cancelbtn onClick={closeModal}>Cancel</Cancelbtn>
           </div>
         </form>

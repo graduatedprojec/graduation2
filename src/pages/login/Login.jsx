@@ -49,7 +49,7 @@ const Login = () => {
 
       setTimeout(() => {
         localStorage.removeItem("logged");
-        location.replace("/login");
+        
       }, 3600000);
 
       setTimeout(() => {

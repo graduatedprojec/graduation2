@@ -46,11 +46,22 @@ export const labsSchema = yup
 })
 .required();
 
-export const addlabSchema = yup.object().shape({
-  tool_id: yup.string().required("Tool ID is required"),
-  quantity: yup
-    .number()
-    .typeError("Quantity must be a number")
-    .positive("Quantity must be positive")
-    .required("Quantity is required"),
+//============================= PATIENTS SCHEMA ===============
+export const patients_schema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters"),
+  gender: yup
+    .string()
+    .required("Gender is required")
+    .oneOf(["male", "female"], "Gender must be either 'male' or 'female'"),
+  address: yup
+    .string()
+    .required("Address is required")
+    .min(3, "Address must be at least 3 characters"),
+  disease: yup
+    .string()
+    .required("Disease is required")
+    .min(3, "Disease must be at least 3 characters"),
 });
