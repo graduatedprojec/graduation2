@@ -28,14 +28,12 @@ const EditDoctor = ({ isOpenEdit, closeModalEdit, title, editDoctor }) => {
     resolver: yupResolver(userSchema),
     defaultValues: editDoctor,
   });
-
   // Populate the form with the current values of editDoctor
   useEffect(() => {
     for (const key in editDoctor) {
       setValue(key, editDoctor[key]);
     }
   }, [editDoctor, setValue]);
-
   const onSubmit = async (data) => {
     const result = await editDoctorData(data, userData);
     if (result.success) {
@@ -62,7 +60,6 @@ const EditDoctor = ({ isOpenEdit, closeModalEdit, title, editDoctor }) => {
       });
     }
   };
-
   //==================== RENDER FORM ==========
   const user_render = user_form.map(
     ({ id, name, label, type, validation }, idx) => (
@@ -78,7 +75,6 @@ const EditDoctor = ({ isOpenEdit, closeModalEdit, title, editDoctor }) => {
       </div>
     )
   );
-
   return (
     <div>
       <Modal title={title} isOpen={isOpenEdit} closeModal={closeModalEdit}>
@@ -93,5 +89,4 @@ const EditDoctor = ({ isOpenEdit, closeModalEdit, title, editDoctor }) => {
     </div>
   );
 };
-
 export default EditDoctor;
