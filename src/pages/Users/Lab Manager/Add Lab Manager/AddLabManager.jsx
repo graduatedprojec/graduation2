@@ -30,7 +30,7 @@ const AddLabManager = ({ isOpen, closeModal, title }) => {
   const onAddHandler = async (e) => {
     e.preventDefault();
     const result = await addLabmanagerData(labMangData, userData);
-    console.log(result , 'lab manag res');
+    console.log(result , 'after update labsss');
     // if (result.success) {
     //   closeModal();
     //   toast.success("Success Adding!", {

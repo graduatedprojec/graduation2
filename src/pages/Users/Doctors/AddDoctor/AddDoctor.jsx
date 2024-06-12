@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react/prop-types */
 
 import Modal from "../../../../Ui/Modal";
@@ -5,33 +6,30 @@ import Input from "../../../../Ui/Input";
 import Label from "../../../../Ui/Label";
 import SubmitButton from "../../../../components/Submit Button/SubmitButton";
 import Cancelbtn from "../../../../components/Cancel Button/Cancelbtn";
-
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import UseAddDoctorData from "../../../../hooks/HDoctors/UseAddDoctorData";
-// eslint-disable-next-line react/prop-types
-// @ts-ignore
+import { user_form } from "../../../../data/user_validation/User_valid";
+import { userSchema } from "../../../../validation/validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import ErrMessage from "../../../../errors/Error input message/ErrMessage";
+
 const AddDoctor = ({ isOpen, closeModal, title }) => {
-  const [doctorData, setDoctorData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchema),
   });
+
   const { addDoctorData, loading } = UseAddDoctorData();
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const changeHandler = (e) => {
-    const { value, name } = e.target;
-    setDoctorData({
-      ...doctorData,
-      [name]: value,
-    });
-  };
-  const onAddHandler = async (e) => {
-    e.preventDefault();
-    const result = await addDoctorData(doctorData, userData);
+
+  const onSubmit = async (data) => {
+    const result = await addDoctorData(data, userData);
     if (result.success) {
       closeModal();
       toast.success("Success Adding!", {
@@ -56,52 +54,27 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
       });
     }
   };
+
+  //==================== RENDER FORM ==========
+  const user_render = user_form.map(({ id, name, label, type, validation }, idx) => (
+    <div key={idx} className="flex gap-2 flex-col">
+      <Label htmlFor={id}>{label}:</Label>
+      <Input
+        type={type}
+        id={id}
+        {...register(name, validation)}
+      />
+      {errors[name] && <ErrMessage msg={errors[name]?.message} />}
+    </div>
+  ));
+
   return (
     <div>
       <Modal title={title} isOpen={isOpen} closeModal={closeModal}>
-        <form onSubmit={onAddHandler}>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="Name"> Name : </Label>
-            <Input
-              // @ts-ignore
-              id="Name"
-              value={doctorData.name}
-              onChange={changeHandler}
-              name="name"
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="Phone"> Phone : </Label>
-            <Input
-              // @ts-ignore
-              id="Phone"
-              value={doctorData.phone}
-              onChange={changeHandler}
-              name="phone"
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="Email"> Email : </Label>
-            <Input
-              // @ts-ignore
-              id="Email"
-              value={doctorData.email}
-              onChange={changeHandler}
-              name="email"
-            />
-          </div>
-          <div className="flex gap-2 flex-col">
-            <Label htmlFor="address"> Address : </Label>
-            <Input
-              // @ts-ignore
-              id="address"
-              value={doctorData.address}
-              onChange={changeHandler}
-              name="address"
-            />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {user_render}
           <div className="flex justify-center items-center space-x-3">
-            <SubmitButton loading={loading}> Add </SubmitButton>
+            <SubmitButton loading={loading}>Add</SubmitButton>
             <Cancelbtn onClick={closeModal}>Cancel</Cancelbtn>
           </div>
         </form>
@@ -109,4 +82,5 @@ const AddDoctor = ({ isOpen, closeModal, title }) => {
     </div>
   );
 };
+
 export default AddDoctor;

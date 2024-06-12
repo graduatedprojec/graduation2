@@ -29,10 +29,12 @@ const Login = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const { status, data: logedData } = await axiosInstance.post(
+      const {status , data:logedData} = await axiosInstance.post(
         "/api/auth/login",
         data
       );
+
+      
       if (status === 200) {
         toast.success("Success login you will go to home page !", {
           duration: 1000,
@@ -50,7 +52,8 @@ const Login = () => {
         location.replace("/");
       }, 1200);
     } catch (error) {
-      toast.error(`${error.response?.data?.error?.message}`, {
+      // console.log(error.response?.data?.msg , 'm err');
+      toast.error(`${error.response?.data?.msg}`, {
         duration: 1000,
         style: {
           borderRadius: "10px",
@@ -67,7 +70,7 @@ const Login = () => {
   const login_render = Login_form.map(
     ({ id, name, placeholder, type, validation }, idx) => (
       <div key={idx} className="flex gap-4 flex-col">
-        <Label htmlFor={id}> Email : </Label>
+        <Label htmlFor={id}> {name} : </Label>
         <Input
           // @ts-ignore
           type={type}

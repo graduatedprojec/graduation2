@@ -13,13 +13,14 @@ const UseAddlabManager = () => {
             headers: { Authorization: `Bearer ${userData.data.access_token}` },
           }
         );
-        console.log(response , 'lab manager add res');
-        if (response.status >= 200 && response.status < 300) {
+        console.log(response.data , 'lab manager add res');
+        if (response.data.status >= 200 && response.status < 300) {
           return { success: true };
         } else {
-          return { success: false, error: "An unexpected error occurred." };
+          return { success: false, error: response.data.message };
         }
       } catch (error) {
+        console.log(error ,'add lab');
         const errorMessage =
           error.response?.data?.error?.message || "An unexpected error occurred.";
         return { success: false, error: errorMessage };
