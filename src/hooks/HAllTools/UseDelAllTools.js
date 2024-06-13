@@ -8,7 +8,7 @@ const UseDelTool = () => {
     setLoading(true);
     try {
       const { status } = await axiosInstance.delete(
-        `test / api /test`,
+        `/api/tools/${ToolId}/delete`,
         {
           headers: {
             Authorization: `Bearer ${userData.data.access_token}`,

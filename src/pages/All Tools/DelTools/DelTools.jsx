@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import UseDelTool from "../../../hooks/HAllTools/UseDelAllTools";
 // eslint-disable-next-line react/prop-types
 const DelTool = ({ isOpen, closeModal, editTool }) => {
-  const { deleteNurseData, loading } = UseDelTool(); // Use the custom hook
+  const { deleteToolData, loading } = UseDelTool(); // Use the custom hook
 
   const storageKey = "logged";
   const userDataString = localStorage.getItem(storageKey);
@@ -15,7 +15,7 @@ const DelTool = ({ isOpen, closeModal, editTool }) => {
   const onsubmitDeleteHandeler = async (e) => {
     e.preventDefault();
 
-    const result = await deleteNurseData(editTool.id, userData);
+    const result = await deleteToolData(editTool.id, userData);
 
     if (result.success) {
       closeModal();
@@ -44,7 +44,7 @@ const DelTool = ({ isOpen, closeModal, editTool }) => {
   return (
     <div>
       <Modal
-        title={`Are You Sure You Want To Delete Dr -  ${editTool.name}`}
+        title={`Are You Sure You Want To Delete  -  ${editTool.name}`}
         isOpen={isOpen}
         closeModal={closeModal}
       >

@@ -4,7 +4,7 @@ const UseAddRoom = () => {
   const [loading, setLoading] = useState(false);
 
   const addRoomData = async (roomData, userData) => {
-    setLoading(true);
+  setLoading(true);
     try {
       const response = await axiosInstance.post(
         `/api/rooms/store`,
@@ -19,6 +19,7 @@ const UseAddRoom = () => {
         return { success: false, error: "An unexpected error occurred." };
       }
     } catch (error) {
+      console.log(error , 'err add room ');
       const errorMessage =
         error.response?.data?.error?.message || "An unexpected error occurred.";
       return { success: false, error: errorMessage };

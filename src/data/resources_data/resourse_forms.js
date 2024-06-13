@@ -80,3 +80,62 @@ export const rooms_form = [
     },
   },
 ];
+//========================= ROOMS PATIENTS  DATA ==========
+export const rooms_patients_form = [
+  {
+    id: "patients_id",
+    label: "Patient Id",
+    name: "patients_id",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+  {
+    id: "bednumber",
+    label: "Bed Number",
+    name: "bed_number",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+  {
+    id: "date_in",
+    label: "Date In",
+    name: "date_in",
+    type: "text",
+    validation: {
+      require: "true",
+
+    },
+  },
+];
+
+//========================= TOOLS  DATA ==========
+
+export const tools_form = [
+  {
+    id: "name",
+    label: "Name",
+    name: "name",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+  {
+    id: "type",
+    label: "Type",
+    name: "type",
+    type: "text",
+    validation: {
+      require: "true",
+      minLength: 3,
+    },
+  },
+ 
+];

@@ -33,6 +33,7 @@ const EditRoomPatients = ({
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     const result = await editRoomPatientsData(editRoomPatients, userData);
+    console.log(result , 'edit room patients');
     if (result.success) {
       closeModalEdit();
       toast.success("Success Updated!", {

@@ -81,3 +81,22 @@ export const patients_schema = yup.object().shape({
     .required("Disease is required")
     .min(3, "Disease must be at least 3 characters"),
 });
+//=============================ROOM PATIENTS SCHEMA ===============
+
+export const room_patientsschema = yup.object().shape({
+  patient_id: yup.string().required("Patient ID is required"),
+  bed_number: yup.string().required("Bed number is required"),
+  date_in: yup.date().required("Date is required").typeError("Invalid date"),
+});
+
+//=============================TOOLS SCHEMA ===============
+export const tools_schema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters"),
+  type: yup
+    .string()
+    .required("Type is required")
+    .min(3, "Type must be at least 3 characters"),
+});
